@@ -187,7 +187,7 @@ var STEPS=[
   {id:'typical_day',type:'single',progress:true,label:'Como é o seu dia típico?',key:'day',opts:[{l:'Fico sentada a maior parte do dia',v:'sitting',e:'💻'},{l:'Faço pausas ativas',v:'breaks',e:'🚶'},{l:'Fico em pé o dia todo',v:'standing',e:'🏃'}]},
   {id:'work',type:'single',progress:true,label:'Qual é a sua rotina de trabalho?',key:'work',opts:[{l:'Horário fixo (9 às 18h)',v:'fixed',e:'🕐'},{l:'Horários flexíveis',v:'flex',e:'🔄'},{l:'Turno da noite',v:'night',e:'🌙'},{l:'Aposentada / não trabalho',v:'retired',e:'🏡'}]},
   {id:'energy',type:'single',progress:true,label:'Como está sua energia durante o dia?',key:'energy',opts:[{l:'Cansada o tempo todo',v:'low',e:'😴'},{l:'Queda após o almoço',v:'lunch',e:'😪'},{l:'Cansada antes das refeições',v:'before',e:'😤'},{l:'Energia constante',v:'high',e:'😊'}]},
-  {id:'info2',type:'info',progress:false,label:'<span>Desinchar em casa</span> de forma leve e sem sofrimento',btn:'Continuar',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/info2.webp',imgM:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/info2.webp',subs:['Seu plano é personalizado para sua rotina, seus horários e <span>sua fase hormonal.</span>','Seja iniciante ou voltando a se cuidar — vamos te ajudar a <span>sentir o corpo mais leve, ter mais energia e se reconhecer no espelho novamente.</span>']},
+  {id:'info2',type:'info',progress:false,label:'<span>Desinchar em casa</span> de forma leve e sem sofrimento',btn:'Continuar',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/info1.webp',imgM:'https://images.unsplash.com/photo-1599901860904-17e6ed7083a5?auto=format&fit=crop&w=800&h=600&q=80',subs:['Seu plano é personalizado para sua rotina, seus horários e <span>sua fase hormonal.</span>','Seja iniciante ou voltando a se cuidar — vamos te ajudar a <span>sentir o corpo mais leve, ter mais energia e se reconhecer no espelho novamente.</span>']},
   {id:'exercise',type:'single',progress:true,label:'Com que frequência você se movimenta?',key:'exercise',opts:[{l:'Nunca',v:'never',bar:'none'},{l:'Algumas vezes por mês',v:'month',bar:'low'},{l:'Algumas vezes por semana',v:'week',bar:'medium'},{l:'Quase todos os dias',v:'daily',bar:'high'}]},
   {id:'minutes',type:'single',progress:true,label:'Quantos minutos por dia você consegue dedicar?',key:'minutes',opts:[{l:'Até 7 minutos',v:'7',e:'✌️'},{l:'10-15 minutos',v:'15',e:'3️⃣'},{l:'20-30 minutos',v:'30',e:'4️⃣'},{l:'Mais de 30 minutos',v:'30plus',e:'🖐️'}]},
   {id:'exercise_likes',type:'exercise_likes',progress:true},
@@ -317,27 +317,22 @@ return html;
 }
 function renderBodyParts(){
 var parts=[
-  {id:'arms',l:'Braços',left:'8%',top:'32%',w:'12%',h:'22%'},
-  {id:'belly',l:'Barriga',left:'35%',top:'42%',w:'30%',h:'18%'},
-  {id:'flanks',l:'Flancos',left:'72%',top:'38%',w:'12%',h:'20%'},
-  {id:'hips',l:'Quadril',left:'28%',top:'58%',w:'44%',h:'12%'},
-  {id:'thighs',l:'Coxas',left:'24%',top:'68%',w:'52%',h:'14%'},
-  {id:'legs',l:'Pernas',left:'26%',top:'80%',w:'48%',h:'14%'},
+  {id:'arms',l:'Bracos',e:'💪',left:'8%',top:'32%',w:'12%',h:'22%'},
+  {id:'belly',l:'Barriga',e:'🫁',left:'35%',top:'42%',w:'30%',h:'18%'},
+  {id:'flanks',l:'Flancos',e:'🎯',left:'72%',top:'38%',w:'12%',h:'20%'},
+  {id:'hips',l:'Quadril',e:'🍑',left:'28%',top:'58%',w:'44%',h:'12%'},
+  {id:'thighs',l:'Coxas',e:'🦵',left:'24%',top:'68%',w:'52%',h:'14%'},
+  {id:'legs',l:'Pernas',e:'🦶',left:'26%',top:'80%',w:'48%',h:'14%'},
 ];
-var html='<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Selecione todas as áreas</p>';
-html+='<div style="position:relative;width:100%;max-width:320px;margin:0 auto">';
-html+='<img src="'+base+'body-zones.webp" alt="corpo" style="width:100%;display:block">';
-parts.forEach(function(p){
-  html+='<div class="zone-overlay" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;background:rgba(196,97,74,0);border:2px solid rgba(196,97,74,0);cursor:pointer;transition:all 0.2s" onclick="toggleZone(this,''+p.id+'')"></div>';
-});
+var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Selecione todas as areas</p>';
+html+='<div style="position:relative;width:100%;max-width:300px;margin:0 auto">';
+html+='<img src="'+base+'body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px">';
+parts.forEach(function(p){html+='<div id="zone-'+p.id+'" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;cursor:pointer;transition:all 0.2s"></div>';});
 html+='</div>';
 html+='<div class="body-parts-grid" id="partsGrid" style="margin-top:12px">';
-parts.forEach(function(p){
-  html+='<button class="body-part-btn" data-part="'+p.id+'" onclick="togglePart(this,''+p.id+'')">'+'<span>'+({arms:'💪',belly:'🫁',flanks:'🎯',hips:'🍑',thighs:'🦵',legs:'🦶'}[p.id])+'</span><span>'+p.l+'</span></button>';
-});
+parts.forEach(function(p){html+='<button class="body-part-btn" data-part="'+p.id+'"><span>'+p.e+'</span><span>'+p.l+'</span></button>';});
 html+='</div>';
-html+='<script>var selParts=[];function toggleZone(el,id){togglePartById(id)}function togglePart(el,id){togglePartById(id)}function togglePartById(id){var idx=selParts.indexOf(id);if(idx>-1)selParts.splice(idx,1);else selParts.push(id);document.querySelectorAll(".body-part-btn").forEach(function(b){var on=selParts.includes(b.dataset.part);b.classList.toggle("selected",on)});document.querySelectorAll(".zone-overlay").forEach(function(z){var on=selParts.includes(z.dataset.zone);z.style.background=on?"rgba(196,97,74,0.35)":"rgba(196,97,74,0)";z.style.border=on?"2px solid rgba(196,97,74,0.7)":"2px solid rgba(196,97,74,0)"})};<\/script>';
-html+='<button class="btn-primary" onclick="(function(){if(typeof state!==\'undefined\'){state.answers.body_parts=selParts;nextStep();}})()">Continuar</button>';
+html+='<button class="btn-primary" id="partsContinue">Continuar</button>';
 return html;
 }
 function renderReviewInfo(){
@@ -345,10 +340,10 @@ function renderReviewInfo(){
 }
 
 function renderExerciseLikes(){
-  var exs=[{key:'yoga',l:'Alongamento',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/like1.webp',desc:'Flexibilidade e recuperação'},{key:'walk',l:'Caminhada leve',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/like2.webp',desc:'Movimento sem impacto'},{key:'massage',l:'Automassagem',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/like3.webp',desc:'Drenagem natural em casa'}];
+  var exs=[{key:'yoga',l:'Alongamento',e:'🧘',desc:'Flexibilidade e recuperação'},{key:'walk',l:'Caminhada leve',e:'🚶',desc:'Movimento sem impacto'},{key:'massage',l:'Automassagem',e:'💆',desc:'Drenagem natural em casa'}];
   var sub=state.exerciseSubStep;
   var ex=exs[sub];
-  return'<div style="text-align:center"><h2 class="step-q">Gosta ou Não Gosta?</h2><p class="step-sub">Se não sabe, escolha Neutro</p></div><div class="substep-dots">'+exs.map(function(_,i){return'<div class="substep-dot '+(i<=sub?'done':'')+'"></div>'}).join('')+'</div><div class="exercise-card"><div class="exercise-img"><img src="'+ex.img+'" alt="'+ex.l+'" style="width:100%;height:100%;object-fit:cover"></div><div style="padding:10px 16px;background:var(--primary-light)"><div class="exercise-title" style="font-size:18px;margin:2px 0">'+ex.l+'</div><div class="exercise-desc">'+ex.desc+'</div></div></div><div class="like-grid"><button class="like-btn hate" data-like="hate">✗<span>Não gosto</span></button><button class="like-btn neutral" data-like="neutral">—<span>Neutro</span></button><button class="like-btn love" data-like="love">♥<span>Gosto</span></button></div><p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px">'+(sub+1)+' de '+exs.length+'</p>';
+  return'<div style="text-align:center"><h2 class="step-q">Gosta ou Não Gosta?</h2><p class="step-sub">Se não sabe, escolha Neutro</p></div><div class="substep-dots">'+exs.map(function(_,i){return'<div class="substep-dot '+(i<=sub?'done':'')+'"></div>'}).join('')+'</div><div class="exercise-card"><div class="exercise-emoji">'+ex.e+'</div><div class="exercise-title">'+ex.l+'</div><div class="exercise-desc">'+ex.desc+'</div></div><div class="like-grid"><button class="like-btn hate" data-like="hate">✗<span>Não gosto</span></button><button class="like-btn neutral" data-like="neutral">—<span>Neutro</span></button><button class="like-btn love" data-like="love">♥<span>Gosto</span></button></div><p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px">'+(sub+1)+' de '+exs.length+'</p>';
 }
 
 function renderLoader(){
@@ -447,7 +442,9 @@ function setupStep(step){
   }
   if(step.type==='body_parts'){
     var selP=[];
-    document.querySelectorAll('[data-part]').forEach(function(b){b.addEventListener('click',function(){var p=b.dataset.part;if(selP.includes(p))selP=selP.filter(function(x){return x!==p});else selP.push(p);b.classList.toggle('selected',selP.includes(p))})});
+    function toggleBP(id){var idx=selP.indexOf(id);if(idx>-1)selP.splice(idx,1);else selP.push(id);document.querySelectorAll('.body-part-btn').forEach(function(b){b.classList.toggle('selected',selP.includes(b.dataset.part))});document.querySelectorAll('[id^="zone-"]').forEach(function(z){var zid=z.id.replace('zone-','');z.style.background=selP.includes(zid)?'rgba(196,97,74,0.4)':'';z.style.boxShadow=selP.includes(zid)?'0 0 0 2px rgba(196,97,74,0.8)':'';});}
+    document.querySelectorAll('[data-part]').forEach(function(b){b.addEventListener('click',function(){toggleBP(b.dataset.part)})});
+    document.querySelectorAll('[id^="zone-"]').forEach(function(z){z.addEventListener('click',function(){toggleBP(z.id.replace('zone-',''))})});
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep()});
   }
   if(step.type==='exercise_likes'){
