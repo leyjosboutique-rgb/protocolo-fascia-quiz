@@ -303,17 +303,18 @@ function renderInfo(step){
 function bodySVG(w,h,hips){var cx=50;return'<svg viewBox="0 0 100 160" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg"><circle cx="'+cx+'" cy="13" r="11" fill="currentColor"/><rect x="'+(cx-3)+'" y="24" width="6" height="7" rx="2" fill="currentColor"/><path d="M'+(cx-w)+',32 L'+(cx-h)+',72 L'+(cx-hips)+',90 L'+(cx+hips)+',90 L'+(cx+h)+',72 L'+(cx+w)+',32 Z" fill="currentColor"/><rect x="'+(cx-w-8)+'" y="32" width="8" height="38" rx="4" fill="currentColor"/><rect x="'+(cx+w)+'" y="32" width="8" height="38" rx="4" fill="currentColor"/><rect x="'+(cx-hips+1)+'" y="90" width="'+(hips-3)+'" height="60" rx="6" fill="currentColor"/><rect x="'+(cx+2)+'" y="90" width="'+(hips-3)+'" height="60" rx="6" fill="currentColor"/></svg>'}
 
 function renderBodyType(step){
-  var isMale=state.answers.gender==='male';
-  var curF=[{l:'Peso saudável mas inchada',v:'slim',w:16,h:10,hips:16},{l:'Levemente acima do peso',v:'mid',w:20,h:14,hips:20},{l:'Bastante inchada',v:'plump',w:22,h:20,hips:24},{l:'Muito acima do peso',v:'over',w:26,h:28,hips:28}];
-  var tarF=[{l:'Desinchada e leve',v:'light',w:18,h:12,hips:19},{l:'Definida e firme',v:'fit',w:16,h:10,hips:16},{l:'Alguns tamanhos menor',v:'smaller',w:17,h:10,hips:18},{l:'Mais energia e menos dor',v:'energy',w:20,h:13,hips:24}];
-  var curM=[{l:'Peso saudável mas inchado',v:'slim',w:18,h:12,hips:15},{l:'Levemente acima do peso',v:'mid',w:22,h:16,hips:18},{l:'Bastante inchado',v:'plump',w:24,h:26,hips:20},{l:'Muito acima do peso',v:'over',w:28,h:30,hips:25}];
-  var tarM=[{l:'Desinchado e leve',v:'light',w:20,h:14,hips:17},{l:'Definido e firme',v:'fit',w:18,h:12,hips:16},{l:'Alguns tamanhos menor',v:'smaller',w:23,h:14,hips:18},{l:'Mais energia e menos dor',v:'energy',w:24,h:13,hips:17}];
-  var opts=step.kind==='current'?(isMale?curM:curF):(isMale?tarM:tarF);
-  var label=step.kind==='current'?'Como você descreveria seu corpo hoje?':'Qual seria seu corpo ideal?';
-  var key=step.kind==='current'?'current_body':'target_body';
-  return'<h2 class="step-q">'+label+'</h2><div class="body-type-grid">'+opts.map(function(o){return'<button class="body-type-card" data-val="'+o.v+'" data-key="'+key+'"><div class="body-svg-wrap">'+bodySVG(o.w,o.h,o.hips)+'</div><div class="body-type-label">'+o.l+'</div></button>'}).join('')+'</div>';
+var isMale=state.answers.gender==='male';
+var curF=[{l:'Peso saudavel mas inchada',v:'slim',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body1.webp'},{l:'Levemente acima do peso',v:'mid',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body2.webp'},{l:'Bastante inchada',v:'plump',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body3.webp'},{l:'Muito acima do peso',v:'over',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body4.webp'}];
+var tarF=[{l:'Desinchada e leve',v:'light',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body1.webp'},{l:'Definida e firme',v:'fit',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body1.webp'},{l:'Alguns tamanhos menor',v:'smaller',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body2.webp'},{l:'Mais energia e menos dor',v:'energy',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body2.webp'}];
+var curM=curF;var tarM=tarF;
+var opts=step.kind==='current'?(isMale?curM:curF):(isMale?tarM:tarF);
+var label=step.kind==='current'?'Como voce descreveria seu corpo hoje?':'Qual seria seu corpo ideal?';
+var key=step.kind==='current'?'current_body':'target_body';
+var html='<h2 class="step-q">'+label+'</h2><div class="body-type-grid">';
+for(var i=0;i<opts.length;i++){var o=opts[i];html+='<button class="body-type-card" data-val="'+o.v+'" data-key="'+key+'"><div style="height:160px;overflow:hidden"><img src="'+o.img+'" alt="'+o.l+'" style="width:100%;height:100%;object-fit:cover;object-position:top"></div><div class="body-type-label">'+o.l+'</div></button>';}
+html+='</div>';
+return html;
 }
-
 function renderBodyParts(){
   var parts=[{id:'arms',l:'Braços',e:'💪'},{id:'belly',l:'Barriga',e:'🫁'},{id:'flanks',l:'Flancos',e:'🎯'},{id:'hips',l:'Quadril',e:'🍑'},{id:'thighs',l:'Coxas',e:'🦵'},{id:'legs',l:'Pernas',e:'🦶'}];
   return'<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Selecione todas as áreas</p><div class="body-parts-grid" id="partsGrid">'+parts.map(function(p){return'<button class="body-part-btn" data-part="'+p.id+'"><span>'+p.e+'</span><span>'+p.l+'</span></button>'}).join('')+'</div><button class="btn-primary" id="partsContinue">Continuar</button>';
