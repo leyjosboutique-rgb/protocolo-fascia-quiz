@@ -316,10 +316,30 @@ html+='</div>';
 return html;
 }
 function renderBodyParts(){
-  var parts=[{id:'arms',l:'Braços',e:'💪'},{id:'belly',l:'Barriga',e:'🫁'},{id:'flanks',l:'Flancos',e:'🎯'},{id:'hips',l:'Quadril',e:'🍑'},{id:'thighs',l:'Coxas',e:'🦵'},{id:'legs',l:'Pernas',e:'🦶'}];
-  return'<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Selecione todas as áreas</p><div class="body-parts-grid" id="partsGrid">'+parts.map(function(p){return'<button class="body-part-btn" data-part="'+p.id+'"><span>'+p.e+'</span><span>'+p.l+'</span></button>'}).join('')+'</div><button class="btn-primary" id="partsContinue">Continuar</button>';
+var parts=[
+  {id:'arms',l:'Braços',left:'8%',top:'32%',w:'12%',h:'22%'},
+  {id:'belly',l:'Barriga',left:'35%',top:'42%',w:'30%',h:'18%'},
+  {id:'flanks',l:'Flancos',left:'72%',top:'38%',w:'12%',h:'20%'},
+  {id:'hips',l:'Quadril',left:'28%',top:'58%',w:'44%',h:'12%'},
+  {id:'thighs',l:'Coxas',left:'24%',top:'68%',w:'52%',h:'14%'},
+  {id:'legs',l:'Pernas',left:'26%',top:'80%',w:'48%',h:'14%'},
+];
+var html='<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Selecione todas as áreas</p>';
+html+='<div style="position:relative;width:100%;max-width:320px;margin:0 auto">';
+html+='<img src="'+base+'body-zones.webp" alt="corpo" style="width:100%;display:block">';
+parts.forEach(function(p){
+  html+='<div class="zone-overlay" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;background:rgba(196,97,74,0);border:2px solid rgba(196,97,74,0);cursor:pointer;transition:all 0.2s" onclick="toggleZone(this,''+p.id+'')"></div>';
+});
+html+='</div>';
+html+='<div class="body-parts-grid" id="partsGrid" style="margin-top:12px">';
+parts.forEach(function(p){
+  html+='<button class="body-part-btn" data-part="'+p.id+'" onclick="togglePart(this,''+p.id+'')">'+'<span>'+({arms:'💪',belly:'🫁',flanks:'🎯',hips:'🍑',thighs:'🦵',legs:'🦶'}[p.id])+'</span><span>'+p.l+'</span></button>';
+});
+html+='</div>';
+html+='<script>var selParts=[];function toggleZone(el,id){togglePartById(id)}function togglePart(el,id){togglePartById(id)}function togglePartById(id){var idx=selParts.indexOf(id);if(idx>-1)selParts.splice(idx,1);else selParts.push(id);document.querySelectorAll(".body-part-btn").forEach(function(b){var on=selParts.includes(b.dataset.part);b.classList.toggle("selected",on)});document.querySelectorAll(".zone-overlay").forEach(function(z){var on=selParts.includes(z.dataset.zone);z.style.background=on?"rgba(196,97,74,0.35)":"rgba(196,97,74,0)";z.style.border=on?"2px solid rgba(196,97,74,0.7)":"2px solid rgba(196,97,74,0)"})};<\/script>';
+html+='<button class="btn-primary" onclick="(function(){if(typeof state!==\'undefined\'){state.answers.body_parts=selParts;nextStep();}})()">Continuar</button>';
+return html;
 }
-
 function renderReviewInfo(){
   return'<div class="review-hero"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/review.webp" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
