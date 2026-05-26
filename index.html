@@ -87,7 +87,7 @@
   .goal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .goal-tag{display:flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
   .social-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:280px;margin-bottom:16px}
-  .social-hero img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+  .social-hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:#e8e4e0}
   .social-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 50%)}
   .social-hero-content{position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff}
   .social-avatars{display:flex;align-items:center;margin-bottom:8px}
@@ -320,7 +320,7 @@ function renderBodyParts(){
 }
 
 function renderReviewInfo(){
-  return'<div class="review-hero"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=420&fit=crop&q=80" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
+  return'<div class="review-hero"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=420&fit=crop&q=80" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
 
 function renderExerciseLikes(){
@@ -657,7 +657,7 @@ render();
   .goal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .goal-tag{display:flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
   .social-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:280px;margin-bottom:16px}
-  .social-hero img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+  .social-hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:#e8e4e0}
   .social-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 50%)}
   .social-hero-content{position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff}
   .social-avatars{display:flex;align-items:center;margin-bottom:8px}
@@ -890,7 +890,7 @@ function renderBodyParts(){
 }
 
 function renderReviewInfo(){
-  return'<div class="review-hero"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=420&fit=crop&q=80" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
+  return'<div class="review-hero"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=420&fit=crop&q=80" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
 
 function renderExerciseLikes(){
