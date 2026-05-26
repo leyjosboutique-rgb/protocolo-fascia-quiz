@@ -265,15 +265,15 @@ function renderAgeRange(){
   var isMale=state.answers.gender==='male';
   var title=isMale?'Plano Personalizado para Homens':'Plano Personalizado para Mulheres';
   var imgs=isMale?[
-    {v:'35-39',l:'35–39',img:'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'40-44',l:'40–44',img:'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'45-49',l:'45–49',img:'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'50-55',l:'50–55',img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=top&q=80'}
+    {v:'35-39',l:'35–39',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/35.webp'},
+    {v:'40-44',l:'40–44',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/40.webp'},
+    {v:'45-49',l:'45–49',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/45.webp'},
+    {v:'50-55',l:'50–55',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp'}
   ]:[
-    {v:'35-39',l:'35–39',img:'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'40-44',l:'40–44',img:'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'45-49',l:'45–49',img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&crop=top&q=80'},
-    {v:'50-55',l:'50–55',img:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=top&q=80'}
+    {v:'35-39',l:'35–39',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/35.webp'},
+    {v:'40-44',l:'40–44',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/40.webp'},
+    {v:'45-49',l:'45–49',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/45.webp'},
+    {v:'50-55',l:'50–55',img:'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp'}
   ];
   return '<div style="text-align:center;margin-bottom:4px"><h1 class="step-title">'+title+'</h1><p class="step-sub" style="text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Baseado na sua fase de vida</p></div><div class="age-grid">'+imgs.map(function(r,i){return'<button class="age-card" data-age="'+r.v+'" '+(i===imgs.length-1&&imgs.length%2!==0?'style="grid-column:span 2;height:110px"':'')+'><img src="'+r.img+'" alt="'+r.l+'"><div class="age-card-overlay"></div><div class="age-card-label">'+r.l+' <span>›</span></div></button>'}).join('')+'</div>';
 }
