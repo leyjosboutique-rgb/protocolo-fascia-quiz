@@ -324,11 +324,11 @@ var parts=[
   {id:'thighs',l:'Coxas',e:'🦵',left:'22%',top:'60%',w:'56%',h:'14%'},
   {id:'legs',l:'Pernas',e:'🦶',left:'24%',top:'74%',w:'52%',h:'12%'},
 ];
-var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Selecione todas as areas</p>';
-html+='<div style="position:relative;width:100%;max-width:300px;margin:0 auto;user-select:none">';
+var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Toque as areas do seu corpo</p>';
+html+='<div style="position:relative;width:100%;max-width:300px;margin:0 auto">';
 html+='<img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px;pointer-events:none">';
 parts.forEach(function(p){
-  html+='<div id="zone-'+p.id+'" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;cursor:pointer;z-index:10;transition:all 0.25s;background:rgba(196,97,74,0);border:2px solid rgba(196,97,74,0)"></div>';
+  html+='<div id="zone-'+p.id+'" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;cursor:pointer;z-index:10"></div>';
 });
 html+='</div>';
 html+='<div class="body-parts-grid" id="partsGrid" style="margin-top:12px">';
