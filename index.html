@@ -363,9 +363,24 @@ return '<div style="text-align:center;padding:20px 0 8px">'
   +'</div>';
 }
 function renderInfoChart(){
-  return'<div style="text-align:center;margin-bottom:16px"><div style="font-size:36px;margin-bottom:8px">📊</div><h2 class="step-q">O último protocolo que você vai precisar para desinchar</h2><p style="font-size:13px;color:var(--text-muted);margin-top:6px">Reduza o inchaço nas primeiras semanas e <span style="color:var(--primary);font-weight:700">mantenha os resultados</span></p></div><div class="chart-wrap"><canvas id="infoChart" style="width:100%;height:160px"></canvas><div class="chart-legend"><span><span class="chart-legend-dot" style="background:var(--primary)"></span>Protocolo da Fáscia</span><span><span class="chart-legend-dot" style="background:#94a3b8"></span>Outros métodos</span></div></div><div class="chart-features"><div class="chart-feature"><span style="font-size:20px">⚡</span>Primeiros resultados em 48 horas</div><div class="chart-feature"><span style="font-size:20px">🎯</span>Personalizado para seu corpo</div><div class="chart-feature"><span style="font-size:20px">🏠</span>Feito em casa — sem academia</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
+return '<div style="text-align:center;margin-bottom:12px">'
+  +'<h2 class="step-q">O último protocolo que você vai precisar para desinchar</h2>'
+  +'<p style="font-size:13px;color:var(--text-muted);margin-top:6px">Reduza o inchaço nas primeiras semanas e <span style="color:var(--primary);font-weight:700">mantenha os resultados</span></p>'
+  +'</div>'
+  +'<div class="chart-wrap">'
+  +'<canvas id="infoChart" style="width:100%;height:200px"></canvas>'
+  +'<div class="chart-legend">'
+  +'<span><span class="chart-legend-dot" style="background:var(--primary)"></span>Protocolo da Fáscia</span>'
+  +'<span><span class="chart-legend-dot" style="background:#94a3b8"></span>Outros métodos</span>'
+  +'</div>'
+  +'</div>'
+  +'<div class="chart-features">'
+  +'<div class="chart-feature"><span style="font-size:20px">⚡</span>Primeiros resultados em 48 horas</div>'
+  +'<div class="chart-feature"><span style="font-size:20px">🎯</span>Personalizado para seu corpo</div>'
+  +'<div class="chart-feature"><span style="font-size:20px">🏠</span>Feito em casa — sem academia</div>'
+  +'</div>'
+  +'<button class="btn-primary" id="continueBtn">Continuar</button>';
 }
-
 function renderHeight(){
   var u=state.answers.height_unit||'cm';
   return'<h2 class="step-q">Qual é a sua altura?</h2><div class="unit-toggle"><button class="unit-btn '+(u==='cm'?'active':'')+'" data-unit="cm" id="unitCm">Centímetros</button><button class="unit-btn '+(u==='ft'?'active':'')+'" data-unit="ft" id="unitFt">Pés e Polegadas</button></div><div id="heightInputs">'+(u==='cm'?'<div class="number-input-wrap"><input class="number-input" type="number" id="heightCm" placeholder="165" value="'+(state.answers.height_cm||'')+'"><span class="input-unit">cm</span></div>':'<div style="display:flex;gap:10px"><div class="number-input-wrap" style="flex:1"><input class="number-input" type="number" id="heightFt" placeholder="5" value="'+(state.answers.height_ft||'')+'"><span class="input-unit">ft</span></div><div class="number-input-wrap" style="flex:1"><input class="number-input" type="number" id="heightIn" placeholder="7" value="'+(state.answers.height_in||'')+'"><span class="input-unit">in</span></div></div>')+'</div><div id="heightError" class="error-msg" style="display:none"></div><div class="info-box"><span style="color:#3B82F6;flex-shrink:0">ℹ</span><div><div class="info-box-title">Calculando sua retenção fascial</div><div class="info-box-text">A altura ajuda a personalizar os movimentos do seu protocolo.</div></div></div><button class="btn-primary" id="heightContinue">Continuar</button>';
@@ -486,20 +501,67 @@ function setupStep(step){
   if(step.type==='info_chart'){
     setTimeout(function(){
       var canvas=document.getElementById('infoChart');if(!canvas)return;
-      var ctx=canvas.getContext('2d');var W=canvas.offsetWidth,H=160;canvas.width=W*2;canvas.height=H*2;ctx.scale(2,2);
-      var data=[{m:'Hoje',f:80,o:80},{m:'Sem 1',f:77.5,o:80},{m:'Sem 2',f:75.2,o:79.5},{m:'Sem 3',f:73,o:79.2},{m:'Mês 1',f:70.5,o:78.8}];
-      var pad={l:28,r:10,t:10,b:28};var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-      var mn=69,mx=81;var x=function(i){return pad.l+(i/(data.length-1))*cW};var y=function(v){return pad.t+cH-(v-mn)/(mx-mn)*cH};
-      ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=.5;
-      for(var v=70;v<=80;v+=2){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(W-pad.r,y(v));ctx.stroke()}
-      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';ctx.textAlign='right';
-      for(var v=70;v<=80;v+=2){ctx.fillText(v,pad.l-4,y(v)+3)}
-      ctx.textAlign='center';data.forEach(function(d,i){ctx.fillText(d.m,x(i),H-4)});
-      ctx.beginPath();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;data.forEach(function(d,i){i===0?ctx.moveTo(x(i),y(d.o)):ctx.lineTo(x(i),y(d.o))});ctx.stroke();
-      var gr=ctx.createLinearGradient(0,pad.t,0,H-pad.b);gr.addColorStop(0,'rgba(196,97,74,.25)');gr.addColorStop(1,'rgba(196,97,74,0)');
-      ctx.beginPath();data.forEach(function(d,i){i===0?ctx.moveTo(x(i),y(d.f)):ctx.lineTo(x(i),y(d.f))});ctx.lineTo(x(data.length-1),H-pad.b);ctx.lineTo(x(0),H-pad.b);ctx.closePath();ctx.fillStyle=gr;ctx.fill();
-      ctx.beginPath();ctx.strokeStyle='#C4614A';ctx.lineWidth=2.5;data.forEach(function(d,i){i===0?ctx.moveTo(x(i),y(d.f)):ctx.lineTo(x(i),y(d.f))});ctx.stroke();
-    },100);
+      var ctx=canvas.getContext('2d');
+      var W=canvas.offsetWidth||320,H=200;
+      canvas.width=W*2;canvas.height=H*2;ctx.scale(2,2);
+      var pad={l:12,r:20,t:20,b:36};
+      var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+      
+      // Data points: x=0..1, y=weight value
+      // Fascia: smooth consistent decline (green)
+      var fasciaY=[80,78.5,77,75.5,74,72.5,71,70,69.5,69];
+      // Others: yo-yo pattern (red)
+      var othersY=[80,78,77,78.5,80,81,79,80.5,82,81];
+      var n=fasciaY.length;
+      
+      var mn=68,mx=83;
+      var xp=function(i){return pad.l+(i/(n-1))*cW;};
+      var yp=function(v){return pad.t+cH-(v-mn)/(mx-mn)*cH;};
+      
+      // Grid
+      ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=0.5;
+      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';
+      
+      // X labels
+      ctx.textAlign='center';
+      ['Hoje','','Sem 1','','Sem 2','','Sem 3','','Mês 1',''].forEach(function(l,i){
+        if(l){ctx.fillStyle='#9CA3AF';ctx.fillText(l,xp(i),H-8);}
+      });
+      
+      // Other methods - yo-yo red fill
+      ctx.beginPath();
+      othersY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
+      ctx.lineTo(xp(n-1),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
+      ctx.fillStyle='rgba(239,68,68,0.15)';ctx.fill();
+      
+      ctx.beginPath();ctx.strokeStyle='#EF4444';ctx.lineWidth=2.5;
+      othersY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
+      ctx.stroke();
+      
+      // "Other plans" label
+      ctx.fillStyle='#EF4444';ctx.font='bold 10px sans-serif';ctx.textAlign='left';
+      ctx.fillText('Outros métodos',xp(5)+4,yp(othersY[5])-8);
+      
+      // Fascia - smooth green fill
+      ctx.beginPath();
+      fasciaY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
+      ctx.lineTo(xp(n-1),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
+      ctx.fillStyle='rgba(196,97,74,0.2)';ctx.fill();
+      
+      ctx.beginPath();ctx.strokeStyle='#C4614A';ctx.lineWidth=3;
+      fasciaY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
+      ctx.stroke();
+      
+      // Dot at start
+      ctx.beginPath();ctx.arc(xp(0),yp(fasciaY[0]),5,0,Math.PI*2);
+      ctx.fillStyle='white';ctx.fill();ctx.strokeStyle='#C4614A';ctx.lineWidth=2;ctx.stroke();
+      
+      // "Today" vertical line
+      ctx.setLineDash([4,3]);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(xp(0),pad.t);ctx.lineTo(xp(0),H-pad.b);ctx.stroke();
+      ctx.setLineDash([]);
+      
+    },150);
   }
   if(step.type==='weight_chart'){
     setTimeout(function(){
