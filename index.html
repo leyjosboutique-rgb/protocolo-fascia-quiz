@@ -449,16 +449,17 @@ function setupStep(step){
     if(mc)mc.addEventListener('click',function(){if(step.key)state.answers[step.key]=[].concat(sel);nextStep()});
   }
   if(step.type==='body_parts'){
-    document.querySelectorAll('.zone-label').forEach(function(el){
-      var id=el.dataset.part;
-      var on=selP.includes(id);
-      el.style.borderColor=on?'#C4614A':'#e8e5e2';
-      el.style.background=on?'#f3e8e5':'white';
-      el.style.color=on?'#C4614A':'#1a1714';
-      var chk=document.getElementById('chk-'+id);
-      if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
-      (function(pid){el.addEventListener('click',function(){toggleBP(pid);});})(id);
-    });
+    selP=[];
+    setTimeout(function(){
+      document.querySelectorAll('.zone-label').forEach(function(el){
+        el.style.borderColor='#e8e5e2';
+        el.style.background='white';
+        el.style.color='#1a1714';
+        var chk=document.getElementById('chk-'+el.dataset.part);
+        if(chk){chk.style.background='';chk.style.borderColor='#e8e5e2';chk.innerHTML='';}
+        (function(pid){el.addEventListener('click',function(){toggleBP(pid);});})(el.dataset.part);
+      });
+    },50);
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
   if(step.type==='exercise_likes'){
