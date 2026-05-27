@@ -328,13 +328,40 @@ function renderExerciseLikes(){
 }
 
 function renderLoader(){
-  var revs=[{n:'Patrícia M.',t:'1 dia atrás',s:5,title:'Já desinchou 4kg!',text:'"Comecei ontem e já estou me sentindo mais leve."'},{n:'Sandra M.',t:'3 dias atrás',s:5,title:'Perdi 6kg em 1 semana',text:'"Perdi 6kg só de água na primeira semana!"'},{n:'Cláudia R.',t:'1 semana atrás',s:5,title:'Calças folgadas em 3 semanas',text:'"Entrei na menopausa e ganhei 9kg. Já desinchou MUITO."'},{n:'Maria L.',t:'2 semanas atrás',s:5,title:'Me reconheço no espelho',text:'"Meu rosto desinchou tanto que minhas amigas notaram!"'}];
-  var rev=revs[state.reviewIndex%revs.length];
-  var tasks=['Analisando retenção líquida...','Avaliando sinais fasciais...','Cruzando respostas hormonais...','Calculando inflamação silenciosa...','Seu protocolo está pronto!'];
-  var ti=Math.min(Math.floor(state.loaderPct/20),tasks.length-1);
-  return'<div class="loader-wrap"><div style="font-size:40px;margin-bottom:12px">⚙️</div><h2 class="step-q" style="text-align:center">Personalizando seu protocolo...</h2><p style="font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:16px">Criando seu plano exclusivo de liberação fascial</p><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--primary);font-weight:600">'+tasks[ti]+'</span><span style="font-size:13px;color:var(--text-muted)">'+Math.round(state.loaderPct)+'%</span></div><div class="loader-track"><div class="loader-fill" id="loaderFill" style="width:'+state.loaderPct+'%"></div></div></div><p style="font-size:11px;text-align:center;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px">O que nossas usuárias dizem</p><div class="review-card" id="reviewCard"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="review-name">'+rev.n+'</div><div class="review-time">'+rev.t+'</div></div><div class="review-stars">'+'★'.repeat(rev.s)+'</div></div><div class="review-title">'+rev.title+'</div><div class="review-text">'+rev.text+'</div></div>';
+var revs=[
+  {n:'Sandra M.',t:'3 dias atrás',s:5,title:'Perdi 6kg em 1 semana',text:'"Perdi 6kg só de água na primeira semana. Impressionada!"'},
+  {n:'Cláudia R.',t:'1 semana atrás',s:5,title:'Calças folgadas em 3 semanas',text:'"Entrei na menopausa e ganhei 9kg. Já desinchou MUITO o rosto e a barriga."'},
+  {n:'Patrícia M.',t:'1 dia atrás',s:5,title:'Já desinchou 4kg!',text:'"Comecei ontem e já estou me sentindo mais leve. Incrível!"'},
+  {n:'Maria L.',t:'2 semanas atrás',s:5,title:'Me reconheço no espelho',text:'"Depois de 2 semanas meu rosto desinchou tanto que minhas amigas notaram!"'},
+];
+var pct=Math.round(state.loaderPct);
+var tasks=['Analisando retenção líquida...','Avaliando sinais fasciais...','Cruzando respostas hormonais...','Calculando inflamação silenciosa...','Seu protocolo está pronto!'];
+var ti=Math.min(Math.floor(state.loaderPct/20),tasks.length-1);
+var rev=revs[state.reviewIndex%revs.length];
+var r=113;var circ=2*Math.PI*r;var dash=circ*(pct/100);
+return '<div style="text-align:center;padding:20px 0 8px">'
+  +'<h2 class="step-q" style="font-size:22px">Personalizando seu protocolo da fáscia...</h2>'
+  +'<p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Criando seu plano exclusivo baseado nas suas respostas</p>'
+  +'<div style="position:relative;width:240px;height:240px;margin:0 auto">'
+  +'<svg width="240" height="240" style="transform:rotate(-90deg)">'
+  +'<circle cx="120" cy="120" r="'+r+'" fill="none" stroke="#f3e8e5" stroke-width="14"/>'
+  +'<circle id="loaderCircle" cx="120" cy="120" r="'+r+'" fill="none" stroke="var(--primary)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+(circ-dash)+'"/>'
+  +'</svg>'
+  +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+  +'<div id="loaderPctText" style="font-size:48px;font-weight:900;color:var(--primary);line-height:1">'+pct+'%</div>'
+  +'<div id="loaderTask" style="font-size:11px;color:var(--text-muted);margin-top:4px;text-align:center;max-width:120px">'+tasks[ti]+'</div>'
+  +'</div>'
+  +'</div>'
+  +'</div>'
+  +'<div style="overflow:hidden;margin-top:16px">'
+  +'<div id="reviewTrack" style="display:flex;transition:transform 0.5s ease;width:300%">'
+  +revs.map(function(r){return '<div style="width:33.33%;flex-shrink:0;padding:0 4px"><div style="background:var(--muted);border-radius:16px;padding:16px"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-weight:700;font-size:14px">'+r.n+'</div><div style="font-size:11px;color:var(--text-muted)">'+r.t+'</div></div><div style="color:#F59E0B;font-size:13px">'+'★'.repeat(r.s)+'</div></div><div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:4px">'+r.title+'</div><div style="font-size:12px;color:var(--text-muted);font-style:italic;line-height:1.5">'+r.text+'</div></div></div>';}).join('')
+  +'</div>'
+  +'<div style="display:flex;justify-content:center;gap:6px;margin-top:10px" id="reviewDots">'
+  +revs.map(function(_,i){return '<div style="width:6px;height:6px;border-radius:50%;background:'+(i===0?'var(--primary)':'#ddd')+'" id="dot'+i+'"></div>';}).join('')
+  +'</div>'
+  +'</div>';
 }
-
 function renderInfoChart(){
   return'<div style="text-align:center;margin-bottom:16px"><div style="font-size:36px;margin-bottom:8px">📊</div><h2 class="step-q">O último protocolo que você vai precisar para desinchar</h2><p style="font-size:13px;color:var(--text-muted);margin-top:6px">Reduza o inchaço nas primeiras semanas e <span style="color:var(--primary);font-weight:700">mantenha os resultados</span></p></div><div class="chart-wrap"><canvas id="infoChart" style="width:100%;height:160px"></canvas><div class="chart-legend"><span><span class="chart-legend-dot" style="background:var(--primary)"></span>Protocolo da Fáscia</span><span><span class="chart-legend-dot" style="background:#94a3b8"></span>Outros métodos</span></div></div><div class="chart-features"><div class="chart-feature"><span style="font-size:20px">⚡</span>Primeiros resultados em 48 horas</div><div class="chart-feature"><span style="font-size:20px">🎯</span>Personalizado para seu corpo</div><div class="chart-feature"><span style="font-size:20px">🏠</span>Feito em casa — sem academia</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
@@ -431,15 +458,30 @@ function setupStep(step){
   }
   if(step.type==='loader'){
     if(state.loaderInterval)clearInterval(state.loaderInterval);
-    state.loaderPct=0;
-    state.loaderInterval=setInterval(function(){
-      state.loaderPct+=0.7;
-      var f=document.getElementById('loaderFill');if(f)f.style.width=Math.min(state.loaderPct,100)+'%';
-      if(state.loaderPct>=100){clearInterval(state.loaderInterval);state.loaderInterval=null;setTimeout(function(){nextStep()},600)}
-    },28);
     if(state.reviewInterval)clearInterval(state.reviewInterval);
-    var revs=[{n:'Patrícia M.',t:'1 dia atrás',s:5,title:'Já desinchou 4kg!',text:'"Comecei ontem e já estou me sentindo mais leve."'},{n:'Sandra M.',t:'3 dias atrás',s:5,title:'Perdi 6kg em 1 semana',text:'"Perdi 6kg só de água na primeira semana!"'},{n:'Cláudia R.',t:'1 semana atrás',s:5,title:'Calças folgadas em 3 semanas',text:'"Entrei na menopausa e ganhei 9kg. Já desinchou MUITO."'},{n:'Maria L.',t:'2 semanas atrás',s:5,title:'Me reconheço no espelho',text:'"Meu rosto desinchou tanto que minhas amigas notaram!"'}];
-    state.reviewInterval=setInterval(function(){state.reviewIndex++;var rev=revs[state.reviewIndex%revs.length];var card=document.getElementById('reviewCard');if(card)card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="review-name">'+rev.n+'</div><div class="review-time">'+rev.t+'</div></div><div class="review-stars">'+'★'.repeat(rev.s)+'</div></div><div class="review-title">'+rev.title+'</div><div class="review-text">'+rev.text+'</div>'},3000);
+    state.loaderPct=0;
+    state.reviewIndex=0;
+    var totalRevs=4;
+    var circ=2*Math.PI*113;
+    state.loaderInterval=setInterval(function(){
+      state.loaderPct=Math.min(state.loaderPct+0.5,100);
+      var pct=Math.round(state.loaderPct);
+      var circle=document.getElementById('loaderCircle');
+      var pctText=document.getElementById('loaderPctText');
+      var taskEl=document.getElementById('loaderTask');
+      var tasks=['Analisando retenção líquida...','Avaliando sinais fasciais...','Cruzando respostas hormonais...','Calculando inflamação silenciosa...','Seu protocolo está pronto!'];
+      var ti=Math.min(Math.floor(state.loaderPct/20),tasks.length-1);
+      if(circle){var dash=circ*(pct/100);circle.setAttribute('stroke-dashoffset',circ-dash);}
+      if(pctText)pctText.textContent=pct+'%';
+      if(taskEl)taskEl.textContent=tasks[ti];
+      if(state.loaderPct>=100){clearInterval(state.loaderInterval);state.loaderInterval=null;setTimeout(function(){nextStep()},800);}
+    },35);
+    state.reviewInterval=setInterval(function(){
+      state.reviewIndex=(state.reviewIndex+1)%totalRevs;
+      var track=document.getElementById('reviewTrack');
+      if(track)track.style.transform='translateX(-'+(state.reviewIndex*33.33)+'%)';
+      for(var i=0;i<totalRevs;i++){var dot=document.getElementById('dot'+i);if(dot)dot.style.background=i===state.reviewIndex?'var(--primary)':'#ddd';}
+    },2500);
   }
   if(step.type==='info_chart'){
     setTimeout(function(){
