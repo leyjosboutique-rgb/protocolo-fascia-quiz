@@ -317,35 +317,25 @@ return html;
 }
 function renderBodyParts(){
 var parts=[
-  {id:'arms',l:'Bracos',e:'💪',side:'left',top:'30%'},
-  {id:'belly',l:'Barriga',e:'🫁',side:'right',top:'42%'},
-  {id:'flanks',l:'Flancos',e:'🎯',side:'left',top:'42%'},
-  {id:'hips',l:'Quadril',e:'🍑',side:'right',top:'54%'},
-  {id:'thighs',l:'Coxas',e:'🦵',side:'left',top:'62%'},
-  {id:'legs',l:'Pernas',e:'🦶',side:'right',top:'74%'},
+  {id:'arms',l:'Bracos',e:'💪',side:'left'},
+  {id:'belly',l:'Barriga',e:'🫁',side:'right'},
+  {id:'flanks',l:'Flancos',e:'🎯',side:'left'},
+  {id:'hips',l:'Quadril',e:'🍑',side:'right'},
+  {id:'thighs',l:'Coxas',e:'🦵',side:'left'},
+  {id:'legs',l:'Pernas',e:'🦶',side:'right'},
 ];
+var leftParts=parts.filter(function(p){return p.side==='left';});
+var rightParts=parts.filter(function(p){return p.side==='right';});
+function labelHtml(p){return '<div class="zone-label" data-part="'+p.id+'" style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;border-radius:10px;border:2px solid #e8e5e2;background:white;cursor:pointer;font-size:12px;font-weight:700"><div id="chk-'+p.id+'" style="width:16px;height:16px;border-radius:4px;border:2px solid #e8e5e2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:white"></div>'+p.l+'</div>';}
 var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Toque as areas com inchaco</p>';
-html+='<div style="display:flex;align-items:flex-start;gap:8px;margin-top:8px">';
-
-// Left labels
-html+='<div style="display:flex;flex-direction:column;gap:0;flex-shrink:0;width:90px;position:relative;margin-top:30px">';
-parts.filter(function(p){return p.side==='left'}).forEach(function(p){
-  html+='<div id="label-'+p.id+'" data-part="'+p.id+'" onclick="toggleBP(''+p.id+'')" style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;border-radius:10px;border:2px solid var(--border);background:white;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.2s"><div id="chk-'+p.id+'" style="width:16px;height:16px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px"></div>'+p.l+'</div>';
-});
+html+='<div style="display:flex;align-items:flex-start;gap:6px;margin-top:8px">';
+html+='<div style="flex-shrink:0;width:90px;margin-top:40px">';
+leftParts.forEach(function(p){html+=labelHtml(p);});
 html+='</div>';
-
-// Center image
-html+='<div style="flex:1;position:relative">';
-html+='<img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px">';
+html+='<div style="flex:1"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px"></div>';
+html+='<div style="flex-shrink:0;width:90px;margin-top:80px">';
+rightParts.forEach(function(p){html+=labelHtml(p);});
 html+='</div>';
-
-// Right labels
-html+='<div style="display:flex;flex-direction:column;gap:0;flex-shrink:0;width:90px;position:relative;margin-top:60px">';
-parts.filter(function(p){return p.side==='right'}).forEach(function(p){
-  html+='<div id="label-'+p.id+'" data-part="'+p.id+'" onclick="toggleBP(''+p.id+'')" style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;border-radius:10px;border:2px solid var(--border);background:white;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.2s"><div id="chk-'+p.id+'" style="width:16px;height:16px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px"></div>'+p.l+'</div>';
-});
-html+='</div>';
-
 html+='</div>';
 html+='<button class="btn-primary" id="partsContinue">Continuar</button>';
 return html;
@@ -457,8 +447,17 @@ function setupStep(step){
   }
   if(step.type==='body_parts'){
     var selP=[];
-    function toggleBP(id){var idx=selP.indexOf(id);if(idx>-1)selP.splice(idx,1);else selP.push(id);var on=selP.includes(id);var lbl=document.getElementById('label-'+id);var chk=document.getElementById('chk-'+id);if(lbl){lbl.style.borderColor=on?'var(--primary)':'var(--border)';lbl.style.background=on?'var(--primary-light)':'white';lbl.style.color=on?'var(--primary)':'var(--text)';}if(chk){chk.style.background=on?'var(--primary)':'';;chk.style.borderColor=on?'var(--primary)':'var(--border)';chk.innerHTML=on?'✓':'';}var btn=document.querySelectorAll('.body-part-btn[data-part="'+id+'"]')[0];if(btn)btn.classList.toggle('selected',on);});document.querySelectorAll('[id^="zone-"]').forEach(function(z){var zid=z.id.replace('zone-','');z.style.background=selP.includes(zid)?'rgba(196,97,74,0.35)':'rgba(196,97,74,0)';z.style.border=selP.includes(zid)?'2px solid rgba(196,97,74,0.8)':'2px solid rgba(196,97,74,0)';});}
-    var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep()});
+    function toggleBP(id){
+var idx=selP.indexOf(id);
+if(idx>-1)selP.splice(idx,1);else selP.push(id);
+var on=selP.includes(id);
+var lbl=document.querySelector('.zone-label[data-part="'+id+'"]');
+var chk=document.getElementById('chk-'+id);
+if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f3e8e5':'white';lbl.style.color=on?'#C4614A':'#1a1714';}
+if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
+}
+    document.querySelectorAll('.zone-label').forEach(function(el){el.addEventListener('click',function(){toggleBP(el.dataset.part);});});
+    var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
   if(step.type==='exercise_likes'){
     var exKeys=['yoga','walk','massage'];
