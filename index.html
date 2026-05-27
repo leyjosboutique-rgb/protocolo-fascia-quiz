@@ -135,7 +135,7 @@
   .date-input:focus{border-color:var(--primary)}
   .email-input{width:100%;height:56px;border:2px solid var(--border);border-radius:14px;font-family:var(--font);font-size:16px;font-weight:500;padding:0 16px;outline:none;color:var(--text);background:#fff;transition:border-color .2s;margin:8px 0}
   .email-input:focus{border-color:var(--primary)}
-  .review-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:auto;min-height:220px;margin-bottom:16px}
+  .review-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:auto;min-height:200px;margin-bottom:16px}
   .review-hero img{width:100%;height:100%;object-fit:contain;background:#f5f2ef;object-position:center}
   .review-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%)}
   .review-hero-content{position:absolute;bottom:0;left:0;right:0;padding:16px}
@@ -172,7 +172,7 @@
 <div id="app"></div>
 <script>
 var selP=[];
-var state={page:'quiz',step:0,answers:{},exerciseSubStep:0,exerciseRatings:{},loaderPct:0,loaderInterval:null,reviewIndex:0,reviewInterval:null};
+var state={page:'quiz',step:0,answers:{},exerciseSubStep:0,exerciseRatings:{},loaderPct:0,loaderInterval:null,reviewIndex:0,reviewInterval:null,calcInterval:null};
 var STEPS=[
   {id:'gender',type:'gender',progress:false},
   {id:'age_range',type:'age_range',progress:false},
@@ -507,7 +507,8 @@ function setupStep(step){
   }
   if(step.type==='calculating'){
     var calcPct=0;
-    var calcInt=setInterval(function(){
+    if(state.calcInterval)clearInterval(state.calcInterval);
+    state.calcInterval=setInterval(function(){
       calcPct=Math.min(calcPct+0.55,100);
       var pct=Math.round(calcPct);
       var circle=document.getElementById('calcCircle');
@@ -522,7 +523,7 @@ function setupStep(step){
           if(check)check.textContent='✓';
         }
       });
-      if(calcPct>=100){clearInterval(calcInt);setTimeout(function(){nextStep();},700);}
+      if(calcPct>=100){clearInterval(state.calcInterval);state.calcInterval=null;setTimeout(function(){nextStep();},700);}
     },30);
   }
   if(step.type==='loader'){
@@ -747,6 +748,7 @@ function nextStep(){
   selP=[];
   if(state.reviewInterval){clearInterval(state.reviewInterval);state.reviewInterval=null;}
   if(state.loaderInterval){clearInterval(state.loaderInterval);state.loaderInterval=null;}
+  if(state.calcInterval){clearInterval(state.calcInterval);state.calcInterval=null;}
   var next=state.step+1;
   while(next<STEPS.length){var s=STEPS[next];if(s.id==='event_date'&&(state.answers.event==='none'||!state.answers.event)){next++;continue;}break;}
   if(next>=STEPS.length){state.page='email';render();return;}
