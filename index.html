@@ -213,6 +213,7 @@ var STEPS=[
 var PROGRESS_STEPS=STEPS.filter(function(s){return s.progress});
 
 function render(){
+  if(STEPS[state.step] && STEPS[state.step].type!=='body_parts') selP=[];
   var app=document.getElementById('app');
   if(state.page==='email'){app.innerHTML=renderEmailPage();setupEmailPage();return}
   if(state.page==='plan'){app.innerHTML=renderPlanPage();return}
@@ -563,6 +564,7 @@ function setupEmailPage(){
 }
 
 function nextStep(){
+  selP=[];
   if(state.reviewInterval){clearInterval(state.reviewInterval);state.reviewInterval=null}
   var next=state.step+1;
   while(next<STEPS.length){
