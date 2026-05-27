@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '941792814902330');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=941792814902330&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Protocolo da Fáscia — Seu Plano Personalizado Está Pronto!</title>
@@ -50,15 +68,18 @@
     background: #fff;
     border-radius: 16px;
     border: 1px solid var(--border);
-    overflow: hidden;
+    overflow: visible;
     box-shadow: var(--shadow);
   }
   .ba-header {
     display: grid; grid-template-columns:1fr 1fr;
   }
   .ba-col {
-    padding: 16px;
+    padding: 16px 8px;
     text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
   }
   .ba-col.now { border-right: 1px solid var(--border); }
   .ba-col .label {
@@ -67,9 +88,9 @@
   }
   .ba-col.now .label { color: var(--coral); }
   .ba-col.goal .label { color: var(--green); }
-  .ba-col img { width:110px; height:160px; object-fit:cover; border-radius:8px; }
+  .ba-col img { width:100%; max-width:150px; height:auto; object-fit:contain; border-radius:8px; }
   .ba-arrow { display:flex; align-items:center; justify-content:center; color:var(--green); font-size:22px; padding:8px; }
-  .ba-metrics { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border); }
+  .ba-metrics { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border); overflow:visible; }
   .ba-metric { padding:14px 16px; }
   .ba-metric:nth-child(odd) { border-right:1px solid var(--border); }
   .ba-metric .metric-label { font-size:11px; color:var(--text-muted); margin-bottom:4px; }
@@ -339,6 +360,37 @@
     100% { background-position: 200% center; }
   }
 </style>
+
+<!-- Meta Pixel Events — Sales Page -->
+<script>
+// ViewContent: sales page vista
+fbq('track', 'ViewContent', {
+  content_name: 'Sales Page Protocolo da Fascia',
+  content_category: 'Sales Page',
+  value: 97,
+  currency: 'BRL'
+});
+
+// AddToCart: quando clica em qualquer CTA
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.main-cta, .sticky-cta').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      fbq('track', 'AddToCart', {
+        content_name: 'Protocolo da Fascia',
+        value: 97,
+        currency: 'BRL',
+        num_items: 1
+      });
+      fbq('track', 'InitiateCheckout', {
+        content_name: 'Protocolo da Fascia',
+        value: 97,
+        currency: 'BRL',
+        num_items: 1
+      });
+    });
+  });
+});
+</script>
 </head>
 <body>
 
@@ -356,17 +408,17 @@
 <!-- SECTION 1: BEFORE/AFTER -->
 <div class="section">
   <div class="before-after-card">
-    <div class="ba-header" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;">
-      <div class="ba-col now" style="text-align:center;padding:16px 8px;">
-        <div class="label" style="font-size:12px;font-weight:800;letter-spacing:1px;color:#E8526A;margin-bottom:10px;">AGORA</div>
+    <div style="display:grid;grid-template-columns:1fr 32px 1fr;align-items:start;">
+      <div style="text-align:center;padding:12px 8px 0;">
+        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:#E8526A;margin-bottom:8px;">AGORA</div>
         <img id="img-body" src="" alt="Seu corpo agora"
-          style="width:100%;max-width:160px;height:200px;object-fit:contain;border-radius:12px;display:block;margin:0 auto;background:#f8f8f8;">
+          style="width:100%;height:auto;max-height:340px;object-fit:contain;object-position:top;border-radius:10px;display:block;background:#f8f8f8;">
       </div>
-      <div id="arrow-ba" style="display:flex;align-items:center;justify-content:center;padding:8px;font-size:28px;color:#16A34A;font-weight:900;animation:arrowPulse 1.2s ease-in-out infinite;">»</div>
-      <div class="ba-col goal" style="text-align:center;padding:16px 8px;">
-        <div class="label" style="font-size:12px;font-weight:800;letter-spacing:1px;color:#16A34A;margin-bottom:10px;">META</div>
+      <div style="display:flex;align-items:center;justify-content:center;font-size:22px;color:#16A34A;font-weight:900;animation:arrowPulse 1.2s ease-in-out infinite;">»</div>
+      <div style="text-align:center;padding:12px 8px 0;">
+        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:#16A34A;margin-bottom:8px;">META</div>
         <img id="img-target" src="" alt="Seu corpo ideal"
-          style="width:100%;max-width:160px;height:200px;object-fit:contain;border-radius:12px;display:block;margin:0 auto;background:#f8f8f8;">
+          style="width:100%;height:auto;max-height:340px;object-fit:contain;object-position:top;border-radius:10px;display:block;background:#f8f8f8;">
       </div>
     </div>
     <div class="ba-metrics">
