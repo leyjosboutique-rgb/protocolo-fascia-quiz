@@ -504,162 +504,88 @@ function setupStep(step){
       var ctx=canvas.getContext('2d');
       var W=canvas.offsetWidth||320,H=200;
       canvas.width=W*2;canvas.height=H*2;ctx.scale(2,2);
-      var pad={l:12,r:20,t:20,b:36};
+      var pad={l:10,r:30,t:16,b:30};
       var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-      
-      // Data points: x=0..1, y=weight value
-      // Fascia: smooth consistent decline (green)
-      var fasciaY=[80,78.5,77,75.5,74,72.5,71,70,69.5,69];
-      // Others: yo-yo pattern (red)
-      var othersY=[80,78,77,78.5,80,81,79,80.5,82,81];
-      var n=fasciaY.length;
-      
-      var mn=68,mx=83;
-      var xp=function(i){return pad.l+(i/(n-1))*cW;};
+      var mn=62,mx=84;
+      var xp=function(t){return pad.l+t*cW;};
       var yp=function(v){return pad.t+cH-(v-mn)/(mx-mn)*cH;};
-      
-      // Grid
-      ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=0.5;
-      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';
-      
-      // X labels
-      ctx.textAlign='center';
-      ['Hoje','','Sem 1','','Sem 2','','Sem 3','','Mês 1',''].forEach(function(l,i){
-        if(l){ctx.fillStyle='#9CA3AF';ctx.fillText(l,xp(i),H-8);}
-      });
-      
-      // Other methods - yo-yo red fill
-      ctx.beginPath();
-      othersY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
-      ctx.lineTo(xp(n-1),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
+      [66,70,74,78,82].forEach(function(v){ctx.strokeStyle='rgba(0,0,0,.07)';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();});
+      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';ctx.textAlign='center';
+      ctx.fillText('Hoje',xp(0),H-6);ctx.fillText('Mês 1',xp(0.5),H-6);
+      // Outros - yoyo
+      ctx.beginPath();ctx.moveTo(xp(0),yp(80));
+      ctx.bezierCurveTo(xp(0.1),yp(80),xp(0.2),yp(72),xp(0.3),yp(70));
+      ctx.bezierCurveTo(xp(0.35),yp(69),xp(0.4),yp(72),xp(0.5),yp(80));
+      ctx.bezierCurveTo(xp(0.6),yp(82),xp(0.7),yp(78),xp(0.85),yp(79));
+      ctx.lineTo(xp(0.85),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
       ctx.fillStyle='rgba(239,68,68,0.15)';ctx.fill();
-      
-      ctx.beginPath();ctx.strokeStyle='#EF4444';ctx.lineWidth=2.5;
-      othersY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
-      ctx.stroke();
-      
-      // "Other plans" label
-      ctx.fillStyle='#EF4444';ctx.font='bold 10px sans-serif';ctx.textAlign='left';
-      ctx.fillText('Outros métodos',xp(5)+4,yp(othersY[5])-8);
-      
-      // Fascia - smooth green fill
-      ctx.beginPath();
-      fasciaY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
-      ctx.lineTo(xp(n-1),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
-      ctx.fillStyle='rgba(196,97,74,0.2)';ctx.fill();
-      
-      ctx.beginPath();ctx.strokeStyle='#C4614A';ctx.lineWidth=3;
-      fasciaY.forEach(function(v,i){i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});
-      ctx.stroke();
-      
-      // Dot at start
-      ctx.beginPath();ctx.arc(xp(0),yp(fasciaY[0]),5,0,Math.PI*2);
-      ctx.fillStyle='white';ctx.fill();ctx.strokeStyle='#C4614A';ctx.lineWidth=2;ctx.stroke();
-      
-      // "Today" vertical line
-      ctx.setLineDash([4,3]);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(xp(0),pad.t);ctx.lineTo(xp(0),H-pad.b);ctx.stroke();
-      ctx.setLineDash([]);
-      
+      ctx.beginPath();ctx.moveTo(xp(0),yp(80));
+      ctx.bezierCurveTo(xp(0.1),yp(80),xp(0.2),yp(72),xp(0.3),yp(70));
+      ctx.bezierCurveTo(xp(0.35),yp(69),xp(0.4),yp(72),xp(0.5),yp(80));
+      ctx.bezierCurveTo(xp(0.6),yp(82),xp(0.7),yp(78),xp(0.85),yp(79));
+      ctx.strokeStyle='#EF4444';ctx.lineWidth=2.5;ctx.stroke();
+      // Arrow outros up-right
+      ctx.beginPath();ctx.moveTo(xp(0.85),yp(79));ctx.lineTo(xp(0.92),yp(76));ctx.strokeStyle='#EF4444';ctx.lineWidth=2;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(xp(0.92),yp(76));ctx.lineTo(xp(0.88),yp(76));ctx.lineTo(xp(0.92),yp(79));ctx.closePath();ctx.fillStyle='#EF4444';ctx.fill();
+      ctx.fillStyle='#EF4444';ctx.font='bold 9px sans-serif';ctx.textAlign='left';ctx.fillText('Outros métodos',xp(0.52),yp(81)-4);
+      // Fascia smooth decline
+      ctx.beginPath();ctx.moveTo(xp(0),yp(80));
+      ctx.bezierCurveTo(xp(0.2),yp(77),xp(0.4),yp(73),xp(0.6),yp(70));
+      ctx.bezierCurveTo(xp(0.75),yp(67),xp(0.85),yp(65),xp(0.85),yp(64));
+      ctx.lineTo(xp(0.85),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();
+      var gr=ctx.createLinearGradient(0,yp(80),0,H-pad.b);
+      gr.addColorStop(0,'rgba(196,97,74,0.4)');gr.addColorStop(1,'rgba(196,97,74,0.05)');
+      ctx.fillStyle=gr;ctx.fill();
+      ctx.beginPath();ctx.moveTo(xp(0),yp(80));
+      ctx.bezierCurveTo(xp(0.2),yp(77),xp(0.4),yp(73),xp(0.6),yp(70));
+      ctx.bezierCurveTo(xp(0.75),yp(67),xp(0.85),yp(65),xp(0.85),yp(64));
+      ctx.strokeStyle='#C4614A';ctx.lineWidth=3;ctx.stroke();
+      // Arrow fascia down-right
+      ctx.beginPath();ctx.moveTo(xp(0.85),yp(64));ctx.lineTo(xp(0.92),yp(67));ctx.strokeStyle='#C4614A';ctx.lineWidth=2;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(xp(0.92),yp(67));ctx.lineTo(xp(0.88),yp(67));ctx.lineTo(xp(0.92),yp(64));ctx.closePath();ctx.fillStyle='#C4614A';ctx.fill();
+      ctx.fillStyle='rgba(196,97,74,0.8)';ctx.font='9px sans-serif';ctx.textAlign='center';ctx.fillText('com Fáscia',xp(0.45),yp(69)+4);
+      // Start dot
+      ctx.beginPath();ctx.arc(xp(0),yp(80),5,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();ctx.strokeStyle='#C4614A';ctx.lineWidth=2;ctx.stroke();
     },150);
   }
-  if(step.type==='weight_chart'){
-    setTimeout(function(){
-      var canvas=document.getElementById('weightChart');if(!canvas)return;
-      var ctx=canvas.getContext('2d');var cur=state.answers.current_weight||75;var tar=state.answers.target_weight||65;
-      var weeks=Math.min(Math.ceil((cur-tar)/0.6),16);
-      var data=Array.from({length:weeks+1},function(_,i){return Math.max(tar,parseFloat((cur-(cur-tar)/weeks*i).toFixed(1)))});
-      var W=canvas.offsetWidth||360,H=180;canvas.width=W;canvas.height=H;
-      var pad={l:32,r:12,t:12,b:28};var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-      var mn=tar-2,mx=cur+1;var x=function(i){return pad.l+(i/(data.length-1))*cW};var y=function(v){return pad.t+cH-(v-mn)/(mx-mn)*cH};
-      ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=.5;[tar,cur].forEach(function(v){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(W-pad.r,y(v));ctx.stroke()});
-      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';ctx.textAlign='right';[tar,cur].forEach(function(v){ctx.fillText(Math.round(v),pad.l-4,y(v)+3)});
-      ctx.textAlign='center';[0,Math.floor(data.length/2),data.length-1].forEach(function(i){ctx.fillText('S'+i,x(i),H-4)});
-      ctx.setLineDash([4,3]);ctx.strokeStyle='#C4614A';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad.l,y(tar));ctx.lineTo(W-pad.r,y(tar));ctx.stroke();ctx.setLineDash([]);
-      var gr=ctx.createLinearGradient(0,pad.t,0,H-pad.b);gr.addColorStop(0,'rgba(196,97,74,.3)');gr.addColorStop(1,'rgba(196,97,74,0)');
-      ctx.beginPath();data.forEach(function(v,i){i===0?ctx.moveTo(x(i),y(v)):ctx.lineTo(x(i),y(v))});ctx.lineTo(x(data.length-1),H-pad.b);ctx.lineTo(x(0),H-pad.b);ctx.closePath();ctx.fillStyle=gr;ctx.fill();
-      ctx.beginPath();ctx.strokeStyle='#C4614A';ctx.lineWidth=2.5;data.forEach(function(v,i){i===0?ctx.moveTo(x(i),y(v)):ctx.lineTo(x(i),y(v))});ctx.stroke();
-      // Animate gauge in summary (if we got here from summary)
-    },100);
+  if(step.type==='sleep'||step.type==='water'||step.type==='diet'||step.type==='reaction'||step.type==='last_time'||step.type==='motivation'||step.type==='event'){
+    document.querySelectorAll('.option-btn[data-val]').forEach(function(b){b.addEventListener('click',function(){if(step.key)state.answers[step.key]=b.dataset.val;nextStep();});});
   }
-  if(step.type==='summary'){
-    setTimeout(function(){
-      var n=document.getElementById('gaugeNeedle');
-      var bmi=state.answers.current_weight&&state.answers.height_cm?state.answers.current_weight/Math.pow(state.answers.height_cm/100,2):25;
-      var ret=Math.min(100,Math.max(0,(bmi-18)/(35-18)*100));
-      if(n)n.style.left=ret+'%';
-    },200);
-  }
-  document.querySelectorAll('[data-unit]').forEach(function(b){b.addEventListener('click',function(){state.answers.height_unit=b.dataset.unit;render()})});
+  document.querySelectorAll('[data-unit]').forEach(function(b){b.addEventListener('click',function(){state.answers.height_unit=b.dataset.unit;render();});});
   var hc=document.getElementById('heightContinue');
-  if(hc)hc.addEventListener('click',function(){
-    var u=state.answers.height_unit||'cm';var err=document.getElementById('heightError');
-    if(u==='cm'){var v=Number(document.getElementById('heightCm')&&document.getElementById('heightCm').value);if(!v||v<120||v>220){err.textContent='Digite um valor entre 120 e 220 cm';err.style.display='block';return}state.answers.height_cm=v;state.answers.height_unit='cm'}
-    else{var ft=Number(document.getElementById('heightFt')&&document.getElementById('heightFt').value);var inch=Number((document.getElementById('heightIn')&&document.getElementById('heightIn').value)||0);if(!ft||ft<3||ft>7){err.textContent='Digite um valor válido';err.style.display='block';return}state.answers.height_ft=ft;state.answers.height_in=inch;state.answers.height_cm=Math.round(ft*30.48+inch*2.54);state.answers.height_unit='ft'}
-    err.style.display='none';nextStep();
-  });
-  document.querySelectorAll('[data-wunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.wunit;render()})});
+  if(hc)hc.addEventListener('click',function(){var u=state.answers.height_unit||'cm';var err=document.getElementById('heightError');if(u==='cm'){var v=Number(document.getElementById('heightCm')&&document.getElementById('heightCm').value);if(!v||v<120||v>220){err.textContent='Digite um valor entre 120 e 220 cm';err.style.display='block';return;}state.answers.height_cm=v;state.answers.height_unit='cm';}else{var ft=Number(document.getElementById('heightFt')&&document.getElementById('heightFt').value);var inch=Number((document.getElementById('heightIn')&&document.getElementById('heightIn').value)||0);if(!ft||ft<3||ft>7){err.textContent='Digite um valor válido';err.style.display='block';return;}state.answers.height_ft=ft;state.answers.height_in=inch;state.answers.height_cm=Math.round(ft*30.48+inch*2.54);state.answers.height_unit='ft';}err.style.display='none';nextStep();});
+  document.querySelectorAll('[data-wunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.wunit;render();});});
   var wi=document.getElementById('weightInput');
-  if(wi)wi.addEventListener('input',function(e){
-    var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var kg=u==='kg'?v:v/2.205;
-    var bmi=kg/Math.pow((state.answers.height_cm||165)/100,2);var info=document.getElementById('weightInfo');if(!info||!v)return;
-    if(bmi<25)info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">✅</span><div><strong>Retenção fascial baixa</strong><p style="font-size:12px;margin-top:3px">Seu protocolo vai focar em manter seu corpo leve.</p></div></div>';
-    else if(bmi<30)info.innerHTML='<div class="retention-box" style="background:#FFFBEB;border-color:#FCD34D;color:#92400E"><span style="font-size:18px">⚠️</span><div><strong>Nível moderado de retenção</strong><p style="font-size:12px;margin-top:3px">Vamos calcular sua retenção personalizada.</p></div></div>';
-    else info.innerHTML='<div class="retention-box" style="background:#FEF2F2;border-color:#FCA5A5;color:#991B1B"><span style="font-size:18px">❗</span><div><strong>Nível alto de retenção fascial</strong><p style="font-size:12px;margin-top:3px">Criaremos um protocolo específico para você.</p></div></div>';
-  });
+  if(wi)wi.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var kg=u==='kg'?v:v/2.205;var bmi=kg/Math.pow((state.answers.height_cm||165)/100,2);var info=document.getElementById('weightInfo');if(!info||!v)return;if(bmi<25)info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">✅</span><div><strong>Retenção fascial baixa</strong><p style="font-size:12px;margin-top:3px">Seu protocolo vai focar em manter seu corpo leve.</p></div></div>';else if(bmi<30)info.innerHTML='<div class="retention-box" style="background:#FFFBEB;border-color:#FCD34D;color:#92400E"><span style="font-size:18px">⚠️</span><div><strong>Nível moderado de retenção</strong></div></div>';else info.innerHTML='<div class="retention-box" style="background:#FEF2F2;border-color:#FCA5A5;color:#991B1B"><span style="font-size:18px">❗</span><div><strong>Nível alto de retenção fascial</strong></div></div>';});
   var wc=document.getElementById('weightContinue');
-  if(wc)wc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('weightInput')&&document.getElementById('weightInput').value);var err=document.getElementById('weightError');if(!v||(u==='kg'&&(v<40||v>200))||(u==='lbs'&&(v<88||v>440))){err.textContent='Digite um valor válido';err.style.display='block';return}state.answers.current_weight=u==='kg'?v:v/2.205;err.style.display='none';nextStep()});
-  document.querySelectorAll('[data-twunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.twunit;render()})});
+  if(wc)wc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('weightInput')&&document.getElementById('weightInput').value);var err=document.getElementById('weightError');if(!v||(u==='kg'&&(v<40||v>200))||(u==='lbs'&&(v<88||v>440))){err.textContent='Digite um valor válido';err.style.display='block';return;}state.answers.current_weight=u==='kg'?v:v/2.205;err.style.display='none';nextStep();});
+  document.querySelectorAll('[data-twunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.twunit;render();});});
   var ti=document.getElementById('targetInput');
-  if(ti)ti.addEventListener('input',function(e){
-    var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;var shed=cur-tKg;
-    var info=document.getElementById('targetInfo');if(!info||!v||shed<=0){if(info)info.innerHTML='';return}
-    var txt=shed<=3?'Resultado rápido possível nas primeiras semanas!':shed<=7?'Estudos mostram que a fáscia pode reduzir 3-7kg de líquido retido.':'Eliminar '+shed.toFixed(1)+'kg de retenção vai transformar como você se sente.';
-    info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">🤌</span><div><strong>META: eliminar retenção líquida</strong><p style="font-size:12px;margin-top:3px">'+txt+'</p></div></div>';
-  });
+  if(ti)ti.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;var shed=cur-tKg;var info=document.getElementById('targetInfo');if(!info||!v||shed<=0){if(info)info.innerHTML='';return;}var txt=shed<=3?'Resultado rápido possível nas primeiras semanas!':shed<=7?'Estudos mostram que a fáscia pode reduzir 3-7kg de líquido retido.':'Eliminar '+shed.toFixed(1)+'kg de retenção vai transformar como você se sente.';info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">🤌</span><div><strong>META: eliminar retenção líquida</strong><p style="font-size:12px;margin-top:3px">'+txt+'</p></div></div>';});
   var tc=document.getElementById('targetContinue');
-  if(tc)tc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('targetInput')&&document.getElementById('targetInput').value);var err=document.getElementById('targetError');var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;if(!v){err.textContent='Digite seu peso meta';err.style.display='block';return}if(tKg>=cur-0.5){err.textContent='O peso meta deve ser menor que o atual';err.style.display='block';return}state.answers.target_weight=tKg;err.style.display='none';nextStep()});
+  if(tc)tc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('targetInput')&&document.getElementById('targetInput').value);var err=document.getElementById('targetError');var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;if(!v){err.textContent='Digite seu peso meta';err.style.display='block';return;}if(tKg>=cur-0.5){err.textContent='O peso meta deve ser menor que o atual';err.style.display='block';return;}state.answers.target_weight=tKg;err.style.display='none';nextStep();});
   var ac=document.getElementById('ageContinue');
-  if(ac)ac.addEventListener('click',function(){var v=Number(document.getElementById('ageInput')&&document.getElementById('ageInput').value);var err=document.getElementById('ageError');if(!v||v<18||v>89){err.textContent='Digite um número entre 18 e 89';err.style.display='block';return}state.answers.age=v;err.style.display='none';nextStep()});
+  if(ac)ac.addEventListener('click',function(){var v=Number(document.getElementById('ageInput')&&document.getElementById('ageInput').value);var err=document.getElementById('ageError');if(!v||v<18||v>89){err.textContent='Digite um número entre 18 e 89';err.style.display='block';return;}state.answers.age=v;err.style.display='none';nextStep();});
   var dc=document.getElementById('dateContinue');
-  if(dc)dc.addEventListener('click',function(){var v=document.getElementById('dateInput')&&document.getElementById('dateInput').value;var err=document.getElementById('dateError');if(!v){err.textContent='Digite uma data';err.style.display='block';return}var d=new Date(v);if(isNaN(d.getTime())||d<=new Date()){err.textContent='Digite uma data futura';err.style.display='block';return}state.answers.event_date=v;err.style.display='none';nextStep()});
-  var ds=document.getElementById('dateSkip');if(ds)ds.addEventListener('click',function(){nextStep()});
+  if(dc)dc.addEventListener('click',function(){var v=document.getElementById('dateInput')&&document.getElementById('dateInput').value;var err=document.getElementById('dateError');if(!v){err.textContent='Digite uma data';err.style.display='block';return;}var d=new Date(v);if(isNaN(d.getTime())||d<=new Date()){err.textContent='Digite uma data futura';err.style.display='block';return;}state.answers.event_date=v;err.style.display='none';nextStep();});
+  var ds=document.getElementById('dateSkip');if(ds)ds.addEventListener('click',function(){nextStep();});
+  if(step.type==='summary'){setTimeout(function(){var n=document.getElementById('gaugeNeedle');var bmi=state.answers.current_weight&&state.answers.height_cm?state.answers.current_weight/Math.pow(state.answers.height_cm/100,2):25;var ret=Math.min(100,Math.max(0,(bmi-18)/(35-18)*100));if(n)n.style.left=ret+'%';},200);}
+  if(step.type==='weight_chart'){setTimeout(function(){var canvas=document.getElementById('weightChart');if(!canvas)return;var ctx=canvas.getContext('2d');var cur=state.answers.current_weight||75;var tar=state.answers.target_weight||65;var weeks=Math.min(Math.ceil((cur-tar)/0.6),16);var data=Array.from({length:weeks+1},function(_,i){return Math.max(tar,parseFloat((cur-(cur-tar)/weeks*i).toFixed(1)));});var W=canvas.offsetWidth||360,H=180;canvas.width=W;canvas.height=H;var pad={l:32,r:12,t:12,b:28};var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;var mn=tar-2,mx=cur+1;var x=function(i){return pad.l+(i/(data.length-1))*cW;};var y=function(v){return pad.t+cH-(v-mn)/(mx-mn)*cH;};ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=.5;[tar,cur].forEach(function(v){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(W-pad.r,y(v));ctx.stroke();});ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';ctx.textAlign='right';[tar,cur].forEach(function(v){ctx.fillText(Math.round(v),pad.l-4,y(v)+3);});ctx.textAlign='center';[0,Math.floor(data.length/2),data.length-1].forEach(function(i){ctx.fillText('S'+i,x(i),H-4);});ctx.setLineDash([4,3]);ctx.strokeStyle='#C4614A';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad.l,y(tar));ctx.lineTo(W-pad.r,y(tar));ctx.stroke();ctx.setLineDash([]);var gr=ctx.createLinearGradient(0,pad.t,0,H-pad.b);gr.addColorStop(0,'rgba(196,97,74,.3)');gr.addColorStop(1,'rgba(196,97,74,0)');ctx.beginPath();data.forEach(function(v,i){i===0?ctx.moveTo(x(i),y(v)):ctx.lineTo(x(i),y(v));});ctx.lineTo(x(data.length-1),H-pad.b);ctx.lineTo(x(0),H-pad.b);ctx.closePath();ctx.fillStyle=gr;ctx.fill();ctx.beginPath();ctx.strokeStyle='#C4614A';ctx.lineWidth=2.5;data.forEach(function(v,i){i===0?ctx.moveTo(x(i),y(v)):ctx.lineTo(x(i),y(v));});ctx.stroke();},100);}
 }
 
 function setupEmailPage(){
   var btn=document.getElementById('emailSubmit');var inp=document.getElementById('emailInput');
-  if(btn)btn.addEventListener('click',function(){
-    var email=inp?inp.value:'';var err=document.getElementById('emailErr');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return}
-    state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;
-    setTimeout(function(){state.page='plan';render()},1200);
-  });
+  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;setTimeout(function(){state.page='plan';render();},1200);});
 }
 
 function nextStep(){
   selP=[];
-  if(state.reviewInterval){clearInterval(state.reviewInterval);state.reviewInterval=null}
+  if(state.reviewInterval){clearInterval(state.reviewInterval);state.reviewInterval=null;}
+  if(state.loaderInterval){clearInterval(state.loaderInterval);state.loaderInterval=null;}
   var next=state.step+1;
-  while(next<STEPS.length){
-    var s=STEPS[next];
-    if(s.id==='event_date'&&(state.answers.event==='none'||!state.answers.event)){next++;continue}
-    break;
-  }
-  if(next>=STEPS.length){state.page='email';render();return}
+  while(next<STEPS.length){var s=STEPS[next];if(s.id==='event_date'&&(state.answers.event==='none'||!state.answers.event)){next++;continue;}break;}
+  if(next>=STEPS.length){state.page='email';render();return;}
   state.step=next;render();window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function renderEmailPage(){
-  var cur=state.answers.current_weight||75;var tar=state.answers.target_weight||65;
-  var isLbs=state.answers.weight_unit==='lbs';var shed=isLbs?Math.round((cur-tar)*2.205):Math.round(cur-tar);var unit=isLbs?'lbs':'kg';
-  return'<header class="header"><div style="width:36px"></div><div class="logo"><div class="logo-icon">S</div>Saúde Integrativa</div><div style="width:36px"></div></header><main style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:20px 16px 80px"><div style="width:100%"><div style="text-align:center;padding:16px 0 8px"><div style="width:72px;height:72px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 12px">🎉</div><h1 style="font-size:22px;font-weight:900;line-height:1.25">Seu Protocolo da Fáscia está <span style="color:var(--primary)">Pronto!</span></h1>'+(shed>0?'<p style="font-size:14px;color:var(--text-muted);margin-top:8px;line-height:1.5">Criamos um plano para você eliminar <strong>'+shed+' '+unit+'</strong> de retenção.</p>':'')+'</div><div style="display:flex;flex-direction:column;gap:8px;margin:16px 0">'+['Rotina fascial diária personalizada','Movimentos para suas áreas críticas','Guia alimentar anti-inflamatório','Protocolo para sua fase hormonal'].map(function(b){return'<div style="display:flex;align-items:center;gap:12px;background:var(--muted);border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600"><span style="color:var(--primary)">✓</span>'+b+'</div>'}).join('')+'</div><div style="margin-top:16px"><label style="font-size:14px;font-weight:700;display:block;margin-bottom:4px">Digite seu e-mail para receber seu plano:</label><input class="email-input" type="email" id="emailInput" placeholder="seu@email.com" autocomplete="email"><div id="emailErr" class="error-msg"></div><button class="btn-primary" id="emailSubmit">Obter Meu Plano Gratuito →</button><div style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--text-muted);margin-top:6px">🔒 100% privado. Sem spam.</div></div><div style="background:var(--muted);border-radius:16px;padding:14px;text-align:center;margin-top:16px"><div style="color:#F59E0B;font-size:18px;margin-bottom:8px">★★★★★</div><div style="font-size:13px;color:var(--text-muted);font-style:italic;line-height:1.5">"Segui meu plano por 6 semanas e perdi 11kg de retenção. Os movimentos são tão fáceis de fazer em casa!"</div><div style="font-size:12px;font-weight:700;margin-top:6px">— Sandra K., usuária verificada</div></div></div></main>';
-}
-
-function renderPlanPage(){
-  var name=(state.answers.email||'').split('@')[0];var isLbs=state.answers.weight_unit==='lbs';var tar=state.answers.target_weight;var dT=tar?(isLbs?Math.round(tar*2.205):Math.round(tar)):null;var unit=isLbs?'lbs':'kg';
-  var url='https://pay.hotmart.com/I105355346F?off=gbt2r062';
-  var feats=[{i:'📱',t:'Protocolo da Fáscia Personalizado',d:'Movimentos específicos para suas áreas'},{i:'🥗',t:'Guia Alimentar Anti-inflamatório',d:'Alimentos que desinflam a fáscia'},{i:'📊',t:'Rastreador de Progresso',d:'Acompanhe sua redução de inchaço'},{i:'💆',t:'Protocolo de Drenagem em Casa',d:'Técnicas suaves sem equipamento'}];
-  return'<header class="header"><div style="width:36px"></div><div class="logo"><div class="logo-icon">S</div>Saúde Integrativa</div><div style="width:36px"></div></header><main style="padding:20px 16px 80px"><div style="text-align:center;padding:20px 0 12px"><div style="font-size:56px">🎊</div><h1 style="font-size:24px;font-weight:900;line-height:1.25;margin:12px 0">'+(name?name+', seu':'Seu')+' protocolo personalizado está <span style="color:var(--primary)">pronto!</span></h1>'+(dT?'<div style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:99px;padding:6px 16px;font-size:13px;font-weight:700">🎯 Meta: '+dT+' '+unit+' sem retenção</div>':'')+'</div><div class="offer-card"><div style="display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:700;font-size:13px;margin-bottom:8px">⚡ Oferta de Lançamento — 67% OFF</div><div><span style="font-size:40px;font-weight:900;color:var(--primary)">R$ 97</span><span style="text-decoration:line-through;color:var(--text-muted);font-size:18px;margin-left:8px">R$ 297</span><span style="font-size:13px;color:var(--text-muted);margin-left:4px">/ acesso vitalício</span></div><p style="font-size:11px;color:var(--text-muted);margin-top:6px">Oferta por tempo limitado.</p></div><h3 style="font-weight:700;font-size:14px;margin-bottom:8px">O que está incluído no seu plano:</h3><div class="feature-list">'+feats.map(function(f){return'<div class="feature-item"><span class="feature-item-icon">'+f.i+'</span><div><div class="feature-item-title">'+f.t+'</div><div class="feature-item-desc">'+f.d+'</div></div><span style="margin-left:auto;color:var(--primary);font-size:16px">✓</span></div>'}).join('')+'</div><button class="btn-primary" onclick="window.location.href=\''+url+'\'">Começar Meu Protocolo por R$97 →</button><div style="display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text-muted);margin:8px 0"><span>🛡 Garantia de 7 dias</span><span>⏱ Sem risco</span></div><div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;margin-bottom:10px"><span>Confiado por milhares de mulheres</span><span style="color:#F59E0B">★★★★★ 4.8/5</span></div>'+[{n:'Sandra M.',t:'Perdi 6kg de retenção em 3 semanas. Os movimentos são muito fáceis de fazer em casa!'},{n:'Cláudia R.',t:'Entrei na menopausa e ganhei 9kg. Comecei há 3 semanas e já desinchou MUITO. As calças estão folgadas.'}].map(function(r){return'<div style="background:var(--muted);border-radius:14px;padding:14px;margin-bottom:8px"><div style="font-weight:700;font-size:13px">'+r.n+' <span style="color:#F59E0B">★★★★★</span></div><div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:6px;line-height:1.5">"'+r.t+'"</div></div>'}).join('')+'</div><p style="font-size:10px;text-align:center;color:var(--text-muted);margin-top:16px">© 2026 Saúde Integrativa. Todos os direitos reservados.<br>Os resultados podem variar de pessoa para pessoa.</p></main>';
 }
 
 function toggleBP(id){
@@ -671,6 +597,7 @@ var chk=document.getElementById('chk-'+id);
 if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f3e8e5':'white';lbl.style.color=on?'#C4614A':'#1a1714';}
 if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
 }
+
 render();
 </script>
 </body>
