@@ -318,7 +318,7 @@ html+='</div>';
 return html;
 }
 function renderBodyParts(){
-selP=[];
+selP=state.answers.body_parts?state.answers.body_parts.slice():[]; 
 var parts=[
   {id:'arms',l:'Braços',e:'💪',side:'left'},
   {id:'belly',l:'Barriga',e:'🫁',side:'right'},
@@ -449,15 +449,15 @@ function setupStep(step){
     if(mc)mc.addEventListener('click',function(){if(step.key)state.answers[step.key]=[].concat(sel);nextStep()});
   }
   if(step.type==='body_parts'){
-    selP=[];
-    // Force reset visual state of all labels
     document.querySelectorAll('.zone-label').forEach(function(el){
-      el.style.borderColor='#e8e5e2';
-      el.style.background='white';
-      el.style.color='#1a1714';
-      var chk=document.getElementById('chk-'+el.dataset.part);
-      if(chk){chk.style.background='';chk.style.borderColor='#e8e5e2';chk.innerHTML='';}
-      el.addEventListener('click',function(){toggleBP(el.dataset.part);});
+      var id=el.dataset.part;
+      var on=selP.includes(id);
+      el.style.borderColor=on?'#C4614A':'#e8e5e2';
+      el.style.background=on?'#f3e8e5':'white';
+      el.style.color=on?'#C4614A':'#1a1714';
+      var chk=document.getElementById('chk-'+id);
+      if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
+      el.addEventListener('click',function(){toggleBP(id);});
     });
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
