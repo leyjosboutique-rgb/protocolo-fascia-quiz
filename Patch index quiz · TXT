@@ -1,0 +1,51 @@
+ARCHIVO: index.html del repo leyjosboutique-rgb/protocolo-fascia-quiz
+INSTRUCCIONES: Abre el archivo en GitHub → lápiz → busca con Ctrl+F los textos marcados
+================================================================================
+
+╔══════════════════════════════════════════════════════════════╗
+║  CAMBIO 1 de 2  —  función setupEmailPage()                 ║
+╠══════════════════════════════════════════════════════════════╣
+║  BUSCA (en el editor de GitHub usa Ctrl+F):                 ║
+║                                                              ║
+║  state.page='plan';render();                                 ║
+║                                                              ║
+║  REEMPLAZA CON:                                              ║
+║                                                              ║
+║  var bodyNum=BODY_MAP[state.answers.current_body]||'2';      ║
+║  var targetNum=BODY_MAP[state.answers.target_body]||'3';     ║
+║  var em=encodeURIComponent(state.answers.email||'');         ║
+║  window.location.href='sales-page.html?body='+bodyNum        ║
+║    +'&target='+targetNum+'&email='+em;                       ║
+╚══════════════════════════════════════════════════════════════╝
+
+NOTA: usa TARGET_MAP para target_body (ver Cambio 2)
+
+================================================================================
+
+╔══════════════════════════════════════════════════════════════╗
+║  CAMBIO 2 de 2  —  justo ANTES de </script> al final        ║
+╠══════════════════════════════════════════════════════════════╣
+║  BUSCA la última línea del script:                           ║
+║                                                              ║
+║  render();                                                   ║
+║  </script>                                                   ║
+║                                                              ║
+║  REEMPLAZA CON:                                              ║
+║                                                              ║
+║  render();                                                   ║
+║                                                              ║
+║  var BODY_MAP={slim:'1',mid:'2',plump:'3',over:'4'};         ║
+║  var TARGET_MAP={light:'1',fit:'2',smaller:'3',energy:'4'};  ║
+║  </script>                                                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+================================================================================
+RESULTADO FINAL:
+Quando o usuário clica "Quero Meu Protocolo" no quiz após inserir o email,
+é redirecionado para:
+
+  sales-page.html?body=2&target=3&email=usuario@email.com
+
+A sales-page lê body=2 → mostra body2.webp (corpo atual)
+               target=3 → mostra target3.webp (corpo meta)
+================================================================================
