@@ -171,6 +171,7 @@
 <body>
 <div id="app"></div>
 <script>
+var selP=[];
 var state={page:'quiz',step:0,answers:{},exerciseSubStep:0,exerciseRatings:{},loaderPct:0,loaderInterval:null,reviewIndex:0,reviewInterval:null};
 var STEPS=[
   {id:'gender',type:'gender',progress:false},
@@ -317,7 +318,7 @@ return html;
 }
 function renderBodyParts(){
 var parts=[
-  {id:'arms',l:'Bracos',e:'💪',side:'left'},
+  {id:'arms',l:'Braços',e:'💪',side:'left'},
   {id:'belly',l:'Barriga',e:'🫁',side:'right'},
   {id:'flanks',l:'Flancos',e:'🎯',side:'left'},
   {id:'hips',l:'Quadril',e:'🍑',side:'right'},
@@ -327,7 +328,7 @@ var parts=[
 var leftParts=parts.filter(function(p){return p.side==='left';});
 var rightParts=parts.filter(function(p){return p.side==='right';});
 function labelHtml(p){return '<div class="zone-label" data-part="'+p.id+'" style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;border-radius:10px;border:2px solid #e8e5e2;background:white;cursor:pointer;font-size:12px;font-weight:700"><div id="chk-'+p.id+'" style="width:16px;height:16px;border-radius:4px;border:2px solid #e8e5e2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:white"></div>'+p.l+'</div>';}
-var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Toque as areas com inchaco</p>';
+var html='<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Toque as áreas com inchaço</p>';
 html+='<div style="display:flex;align-items:flex-start;gap:6px;margin-top:8px">';
 html+='<div style="flex-shrink:0;width:90px;margin-top:40px">';
 leftParts.forEach(function(p){html+=labelHtml(p);});
@@ -446,7 +447,7 @@ function setupStep(step){
     if(mc)mc.addEventListener('click',function(){if(step.key)state.answers[step.key]=[].concat(sel);nextStep()});
   }
   if(step.type==='body_parts'){
-    var selP=[];
+    selP=[];
     function toggleBP(id){
 var idx=selP.indexOf(id);
 if(idx>-1)selP.splice(idx,1);else selP.push(id);
