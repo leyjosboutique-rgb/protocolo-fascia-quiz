@@ -317,18 +317,18 @@ return html;
 }
 function renderBodyParts(){
 var parts=[
-  {id:'arms',l:'Bracos',e:'💪',left:'6%',top:'28%',w:'10%',h:'18%'},
-  {id:'belly',l:'Barriga',e:'🫁',left:'32%',top:'38%',w:'36%',h:'15%'},
-  {id:'flanks',l:'Flancos',e:'🎯',left:'76%',top:'30%',w:'10%',h:'18%'},
-  {id:'hips',l:'Quadril',e:'🍑',left:'25%',top:'52%',w:'50%',h:'10%'},
-  {id:'thighs',l:'Coxas',e:'🦵',left:'22%',top:'61%',w:'56%',h:'13%'},
-  {id:'legs',l:'Pernas',e:'🦶',left:'24%',top:'73%',w:'52%',h:'12%'},
+  {id:'arms',l:'Bracos',e:'💪',left:'5%',top:'28%',w:'11%',h:'20%'},
+  {id:'belly',l:'Barriga',e:'🫁',left:'30%',top:'36%',w:'40%',h:'14%'},
+  {id:'flanks',l:'Flancos',e:'🎯',left:'77%',top:'28%',w:'11%',h:'20%'},
+  {id:'hips',l:'Quadril',e:'🍑',left:'24%',top:'50%',w:'52%',h:'10%'},
+  {id:'thighs',l:'Coxas',e:'🦵',left:'22%',top:'60%',w:'56%',h:'14%'},
+  {id:'legs',l:'Pernas',e:'🦶',left:'24%',top:'74%',w:'52%',h:'12%'},
 ];
 var html='<h2 class="step-q">Onde voce sente mais inchaco?</h2><p class="step-sub">Selecione todas as areas</p>';
-html+='<div style="position:relative;width:100%;max-width:300px;margin:0 auto">';
-html+='<img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px">';
+html+='<div style="position:relative;width:100%;max-width:300px;margin:0 auto;user-select:none">';
+html+='<img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px;pointer-events:none">';
 parts.forEach(function(p){
-  html+='<div id="zone-'+p.id+'" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;background:transparent;cursor:pointer;transition:all 0.25s"></div>';
+  html+='<div id="zone-'+p.id+'" data-zone="'+p.id+'" style="position:absolute;left:'+p.left+';top:'+p.top+';width:'+p.w+';height:'+p.h+';border-radius:50%;cursor:pointer;z-index:10;transition:all 0.25s;background:rgba(196,97,74,0);border:2px solid rgba(196,97,74,0)"></div>';
 });
 html+='</div>';
 html+='<div class="body-parts-grid" id="partsGrid" style="margin-top:12px">';
@@ -446,7 +446,7 @@ function setupStep(step){
   }
   if(step.type==='body_parts'){
     var selP=[];
-    function toggleBP(id){var idx=selP.indexOf(id);if(idx>-1)selP.splice(idx,1);else selP.push(id);document.querySelectorAll('.body-part-btn').forEach(function(b){b.classList.toggle('selected',selP.includes(b.dataset.part))});document.querySelectorAll('[id^="zone-"]').forEach(function(z){var zid=z.id.replace('zone-','');z.style.background=selP.includes(zid)?'rgba(196,97,74,0.4)':'';z.style.boxShadow=selP.includes(zid)?'0 0 0 2px rgba(196,97,74,0.8)':'';});}
+    function toggleBP(id){var idx=selP.indexOf(id);if(idx>-1)selP.splice(idx,1);else selP.push(id);document.querySelectorAll('.body-part-btn').forEach(function(b){b.classList.toggle('selected',selP.includes(b.dataset.part))});document.querySelectorAll('[id^="zone-"]').forEach(function(z){var zid=z.id.replace('zone-','');z.style.background=selP.includes(zid)?'rgba(196,97,74,0.35)':'rgba(196,97,74,0)';z.style.border=selP.includes(zid)?'2px solid rgba(196,97,74,0.8)':'2px solid rgba(196,97,74,0)';});}
     document.querySelectorAll('[data-part]').forEach(function(b){b.addEventListener('click',function(){toggleBP(b.dataset.part)})});
     document.querySelectorAll('[id^="zone-"]').forEach(function(z){z.addEventListener('click',function(){toggleBP(z.id.replace('zone-',''))})});
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep()});
