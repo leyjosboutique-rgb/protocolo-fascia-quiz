@@ -449,7 +449,15 @@ function setupStep(step){
   }
   if(step.type==='body_parts'){
     selP=[];
-    document.querySelectorAll('.zone-label').forEach(function(el){el.addEventListener('click',function(){toggleBP(el.dataset.part);});});
+    // Force reset visual state of all labels
+    document.querySelectorAll('.zone-label').forEach(function(el){
+      el.style.borderColor='#e8e5e2';
+      el.style.background='white';
+      el.style.color='#1a1714';
+      var chk=document.getElementById('chk-'+el.dataset.part);
+      if(chk){chk.style.background='';chk.style.borderColor='#e8e5e2';chk.innerHTML='';}
+      el.addEventListener('click',function(){toggleBP(el.dataset.part);});
+    });
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
   if(step.type==='exercise_likes'){
