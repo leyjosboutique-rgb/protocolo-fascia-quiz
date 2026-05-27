@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '941792814902330');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=941792814902330&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz — Protocolo da Fáscia</title>
@@ -174,6 +192,35 @@
   .chart-features{display:flex;flex-direction:column;gap:8px;margin-top:12px}
   .chart-feature{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #EBEBEB;border-radius:12px;padding:12px;font-size:14px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 </style>
+
+<!-- Meta Pixel Events — Quiz -->
+<script>
+// ViewContent: quiz iniciado
+fbq('track', 'ViewContent', {
+  content_name: 'Quiz Protocolo da Fascia',
+  content_category: 'Quiz'
+});
+
+// Helper: fire Lead when email submitted
+function fireLeadPixel(email) {
+  fbq('track', 'Lead', {
+    content_name: 'Protocolo da Fascia',
+    content_category: 'Email Capture',
+    value: 97,
+    currency: 'BRL'
+  });
+}
+
+// Helper: fire InitiateCheckout before redirect
+function fireInitiateCheckout() {
+  fbq('track', 'InitiateCheckout', {
+    content_name: 'Protocolo da Fascia',
+    value: 97,
+    currency: 'BRL',
+    num_items: 1
+  });
+}
+</script>
 </head>
 <body>
 <div id="app"></div>
@@ -762,6 +809,9 @@ function nextStep(){
   while(next<STEPS.length){var s=STEPS[next];if(s.id==='event_date'&&(state.answers.event==='none'||!state.answers.event)){next++;continue;}break;}
   if(next>=STEPS.length){state.page='email';render();return;}
   state.step=next;render();window.scrollTo({top:0,behavior:'smooth'});
+  if(typeof fbq!=='undefined'&&next===STEPS.length-1){
+    fbq('track','ViewContent',{content_name:'Quiz Completo',value:97,currency:'BRL'});
+  }
 }
 
 function toggleBP(id){
