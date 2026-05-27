@@ -532,7 +532,7 @@ function setupStep(step){
           if(check)check.textContent='✓';
         }
       });
-      if(calcPct>=100){clearInterval(state.calcInterval);state.calcInterval=null;setTimeout(function(){nextStep();},700);}
+      if(calcPct>=100){clearInterval(state.calcInterval);state.calcInterval=null;clearInterval(state.calcRevInterval);state.calcRevInterval=null;setTimeout(function(){nextStep();},800);}
     },30);
   }
   if(step.type==='loader'){
@@ -772,6 +772,53 @@ var lbl=document.querySelector('.zone-label[data-part="'+id+'"]');
 var chk=document.getElementById('chk-'+id);
 if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f3e8e5':'white';lbl.style.color=on?'#C4614A':'#1a1714';}
 if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
+}
+
+// ─── EMAIL PAGE ───────────────────────────────────────────────────────────
+function renderEmailPage(){
+  var shed=((state.answers.current_weight||75)-(state.answers.target_weight||65)).toFixed(1);
+  return '<header class="header" style="justify-content:center"><div class="logo"><div class="logo-icon">S</div>Saúde Integrativa</div></header>'
+    +'<main><div class="step" style="text-align:center;padding-top:8px">'
+    +'<div style="font-size:52px;margin-bottom:12px">🎉</div>'
+    +'<h2 style="font-size:24px;font-weight:900;line-height:1.2;color:#111;margin-bottom:8px">Insira seu e-mail para receber seu<br><span style="color:#E8526A">Protocolo Personalizado</span></h2>'
+    +'<p style="font-size:14px;color:#888;margin-bottom:20px">Acesso imediato ao seu plano exclusivo de desinchamento</p>'
+    +'<div style="background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:12px;padding:14px;margin-bottom:20px;text-align:left">'
+    +'<div style="font-weight:800;font-size:14px;color:#166534;margin-bottom:4px">✅ Protocolo criado com sucesso!</div>'
+    +'<div style="font-size:13px;color:#16A34A">Prevemos que você vai eliminar <strong>'+shed+'kg</strong> de retenção fascial.</div>'
+    +'</div>'
+    +'<div style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:12px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;text-align:left">'
+    +'<div><div style="font-size:11px;font-weight:700;color:#C2410C;text-transform:uppercase;letter-spacing:.5px">Oferta expira em</div>'
+    +'<div id="urgTimer" style="font-size:26px;font-weight:900;color:#C2410C;letter-spacing:3px;line-height:1.1">10:00</div></div>'
+    +'<div style="flex:1;font-size:12px;color:#9A3412;line-height:1.4">70% de desconto reservado para você</div>'
+    +'</div>'
+    +'<input class="email-input" type="email" id="emailInput" placeholder="seu@email.com" style="text-align:center;font-size:17px">'
+    +'<div id="emailErr" style="color:#DC2626;font-size:13px;margin-top:4px;min-height:18px"></div>'
+    +'<button class="btn-primary" id="emailSubmit" style="font-size:17px">Quero Meu Protocolo Agora →</button>'
+    +'<p style="font-size:11px;color:#aaa;margin-top:14px;line-height:1.6">🔒 Seus dados estão seguros.<br>Nunca compartilhamos seu e-mail.</p>'
+    +'</div></main>';
+}
+
+function setupEmailPage(){
+  var btn=document.getElementById('emailSubmit');
+  var inp=document.getElementById('emailInput');
+  setTimeout(function(){startTimer('urgTimer',600,null);},100);
+  if(btn)btn.addEventListener('click',function(){
+    var email=inp?inp.value.trim():'';
+    var err=document.getElementById('emailErr');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      if(err)err.textContent='Digite um e-mail válido';
+      return;
+    }
+    state.answers.email=email;
+    btn.textContent='Preparando seu protocolo...';
+    btn.disabled=true;
+    setTimeout(function(){
+      var bn=BODY_MAP[state.answers.current_body]||'2';
+      var tn=TARGET_MAP[state.answers.target_body]||'3';
+      var em=encodeURIComponent(email);
+      window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;
+    },1200);
+  });
 }
 
 var BODY_MAP={slim:'1',mid:'2',plump:'3',over:'4'};
