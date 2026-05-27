@@ -457,7 +457,7 @@ function setupStep(step){
       el.style.color=on?'#C4614A':'#1a1714';
       var chk=document.getElementById('chk-'+id);
       if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
-      el.addEventListener('click',function(){toggleBP(id);});
+      (function(pid){el.addEventListener('click',function(){toggleBP(pid);});})(id);
     });
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
