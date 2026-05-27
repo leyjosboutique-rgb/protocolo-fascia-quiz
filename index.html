@@ -7,25 +7,32 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
-  :root{--primary:#C4614A;--primary-light:#f3e8e5;--primary-dark:#a04a36;--bg:#fff;--muted:#f5f4f3;--border:#e8e5e2;--text:#1a1714;--text-muted:#7a7471;--radius:16px;--font:'Figtree',sans-serif}
-  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;max-width:440px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.08)}
-  .header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;padding:0 16px;justify-content:space-between}
+  :root{
+    --primary:#E8526A;--primary-light:#FFF0F2;--primary-dark:#C73A52;
+    --green:#16A34A;--green-light:#F0FDF4;--green-border:#BBF7D0;
+    --red:#DC2626;--red-light:#FEF2F2;--red-border:#FECACA;
+    --bg:#FFFFFF;--muted:#F8F8F8;--border:#EBEBEB;
+    --text:#111111;--text-muted:#888888;
+    --radius:14px;--font:'Figtree',sans-serif
+  }
+  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;box-shadow:0 0 60px rgba(0,0,0,.10)}
+  .header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #F0F0F0;height:54px;display:flex;align-items:center;padding:0 16px;justify-content:space-between}
   .header-back{width:36px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:20px;color:var(--text);transition:background .15s}
   .header-back:hover{background:var(--muted)}
   .header-back.hidden{opacity:0;pointer-events:none}
   .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
-  .logo-icon{width:30px;height:30px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px}
+  .logo-icon{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px}
   .progress-bar-wrap{background:#fff;border-bottom:1px solid var(--border);padding:8px 16px 10px}
   .progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
   .progress-meta span:last-child{color:var(--primary)}
-  .progress-track{height:5px;background:var(--muted);border-radius:99px;overflow:hidden}
+  .progress-track{height:6px;background:#F0F0F0;border-radius:99px;overflow:hidden}
   .progress-fill{height:100%;background:var(--primary);border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
   main{flex:1;overflow-y:auto;padding:20px 16px 80px}
   footer{border-top:1px solid var(--border);padding:12px 16px;text-align:center;font-size:10px;color:var(--text-muted);background:#fff}
   .step{animation:fadeUp .35s ease}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  h1.step-title{font-size:22px;font-weight:900;line-height:1.2;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:4px}
-  h2.step-q{font-size:19px;font-weight:800;line-height:1.25;margin-bottom:4px}
+  h1.step-title{font-size:24px;font-weight:900;line-height:1.15;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:4px;color:#111}
+  h2.step-q{font-size:21px;font-weight:900;line-height:1.2;margin-bottom:4px;color:#111}
   .step-sub{font-size:13px;color:var(--text-muted);font-weight:500;margin-bottom:16px}
   .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
   .gender-card{position:relative;overflow:hidden;border-radius:var(--radius);border:2px solid var(--border);height:220px;cursor:pointer;transition:border-color .2s,transform .1s}
@@ -33,20 +40,20 @@
   .gender-card:active{transform:scale(.98)}
   .gender-card img{width:100%;height:100%;object-fit:cover;object-position:top}
   .gender-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,.05) 60%)}
-  .gender-card-label{position:absolute;bottom:0;left:0;right:0;background:var(--primary);display:flex;align-items:center;justify-content:space-between;padding:10px 12px;height:42px;color:#fff;font-weight:700;font-size:15px}
+  .gender-card-label{position:absolute;bottom:0;left:0;right:0;background:var(--primary);display:flex;align-items:center;justify-content:space-between;padding:10px 14px;height:44px;color:#fff;font-weight:800;font-size:15px;letter-spacing:.2px}
   .age-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
   .age-card{position:relative;overflow:hidden;border-radius:var(--radius);border:2px solid var(--border);height:170px;cursor:pointer;transition:border-color .2s,transform .1s;background:#f0eeec;display:flex;align-items:center;justify-content:center}
   .age-card:hover{border-color:var(--primary)}
   .age-card:active{transform:scale(.98)}
   .age-card img{width:85%;height:90%;object-fit:contain;object-position:center;display:block;margin:0 auto}
   .age-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,.05) 60%)}
-  .age-card-label{position:absolute;bottom:0;left:0;right:0;background:var(--primary);display:flex;align-items:center;justify-content:space-between;padding:8px 12px;height:40px;color:#fff;font-weight:800;font-size:17px}
+  .age-card-label{position:absolute;bottom:0;left:0;right:0;background:var(--primary);display:flex;align-items:center;justify-content:space-between;padding:8px 14px;height:42px;color:#fff;font-weight:900;font-size:18px}
   .options-list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-  .option-btn{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:2px solid var(--border);background:#fff;cursor:pointer;text-align:left;font-family:var(--font);font-size:15px;font-weight:600;color:var(--text);transition:border-color .15s,background .15s,transform .1s}
-  .option-btn:hover{border-color:var(--primary);background:var(--primary-light)}
+  .option-btn{width:100%;display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:12px;border:1.5px solid #E8E8E8;background:#fff;cursor:pointer;text-align:left;font-family:var(--font);font-size:15px;font-weight:600;color:#111;transition:border-color .15s,background .15s,transform .1s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .option-btn:hover{border-color:var(--primary);background:var(--primary-light);box-shadow:0 2px 8px rgba(232,82,106,.12)}
   .option-btn:active{transform:scale(.98)}
   .option-emoji{font-size:22px;flex-shrink:0}
-  .option-btn.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+  .option-btn.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary);box-shadow:0 2px 12px rgba(232,82,106,.15)}
   .option-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
   .option-btn.selected .option-check{background:var(--primary);border-color:var(--primary);color:#fff}
   .info-image{width:100%;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;position:relative;margin-bottom:16px}
@@ -62,7 +69,7 @@
   .body-type-card:active{transform:scale(.97)}
   .body-svg-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;color:rgba(100,80,75,.35);height:140px}
   .body-type-card:hover .body-svg-wrap{color:rgba(196,97,74,.5)}
-  .body-type-label{background:var(--primary);color:#fff;text-align:center;padding:10px 8px;font-size:13px;font-weight:700}
+  .body-type-label{background:var(--primary);color:#fff;text-align:center;padding:10px 8px;font-size:12px;font-weight:800;letter-spacing:.2px}
   .body-parts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
   .body-part-btn{display:flex;align-items:center;gap:6px;padding:10px;border-radius:12px;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600;transition:all .15s}
   .body-part-btn.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
@@ -78,14 +85,14 @@
   .review-text{font-size:12px;color:var(--text-muted);font-style:italic;line-height:1.5}
   .gauge-track{display:flex;height:12px;border-radius:99px;overflow:hidden;gap:2px;position:relative}
   .gauge-seg{flex:1}
-  .gauge-needle{position:absolute;top:-4px;width:20px;height:20px;background:#fff;border:2.5px solid var(--text);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.2);transform:translateX(-50%);transition:left 1s cubic-bezier(.4,0,.2,1)}
+  .gauge-needle{position:absolute;top:-4px;width:20px;height:20px;background:#fff;border:2.5px solid #111;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.25);transform:translateX(-50%);transition:left 1s cubic-bezier(.4,0,.2,1)}
   .gauge-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px}
   .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
-  .stat-box{background:var(--muted);border-radius:12px;padding:12px 8px;text-align:center}
+  .stat-box{background:#fff;border:1.5px solid #EBEBEB;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
   .stat-label{font-size:11px;color:var(--text-muted)}
   .stat-val{font-weight:800;font-size:14px;margin-top:4px}
   .goal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-  .goal-tag{display:flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
+  .goal-tag{display:flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;border:1px solid rgba(232,82,106,.2)}
   .social-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:280px;margin-bottom:16px}
   .social-hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:#e8e4e0}
   .social-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 50%)}
@@ -97,23 +104,23 @@
   .social-hero-title{font-size:21px;font-weight:900;line-height:1.2}
   .social-hero-title span{color:#FFD700}
   .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
-  .stat-item{background:var(--muted);border-radius:12px;padding:10px 6px;text-align:center}
-  .stat-num{font-size:16px;font-weight:900;color:var(--primary)}
+  .stat-item{background:#fff;border:1.5px solid #EBEBEB;border-radius:12px;padding:10px 6px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+  .stat-num{font-size:18px;font-weight:900;color:var(--primary)}
   .stat-desc{font-size:11px;color:var(--text-muted);margin-top:2px}
-  .chart-wrap{background:var(--muted);border-radius:16px;padding:16px;margin:12px 0}
+  .chart-wrap{background:#fff;border:1.5px solid #EBEBEB;border-radius:14px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
   .chart-legend{display:flex;gap:16px;justify-content:center;margin-top:8px;font-size:11px;color:var(--text-muted)}
   .chart-legend-dot{width:12px;height:3px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
   .unit-toggle{display:flex;background:var(--muted);border-radius:12px;padding:4px;gap:4px;margin-bottom:12px}
   .unit-btn{flex:1;padding:10px;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s}
   .unit-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(196,97,74,.3)}
   .number-input-wrap{position:relative}
-  .number-input{width:100%;height:60px;border:2px solid var(--border);border-radius:14px;font-family:var(--font);font-size:24px;font-weight:800;text-align:center;background:#fff;color:var(--text);outline:none;transition:border-color .2s;padding-right:40px}
+  .number-input{width:100%;height:64px;border:2px solid #E8E8E8;border-radius:12px;font-family:var(--font);font-size:28px;font-weight:900;text-align:center;background:#fff;color:#111;outline:none;transition:border-color .2s,box-shadow .2s;padding-right:40px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .number-input:focus{border-color:var(--primary)}
   .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--text-muted);font-size:16px}
   .error-msg{color:#e53e3e;font-size:13px;margin-top:6px}
-  .info-box{display:flex;gap:10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px;margin:12px 0}
-  .info-box-title{font-size:13px;font-weight:700;color:#1E40AF}
-  .info-box-text{font-size:12px;color:#3B82F6;margin-top:3px}
+  .info-box{display:flex;gap:10px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;margin:12px 0}
+  .info-box-title{font-size:13px;font-weight:700;color:#166534}
+  .info-box-text{font-size:12px;color:#16A34A;margin-top:3px}
   .retention-box{border-radius:12px;border:1px solid;padding:12px 14px;margin:12px 0;display:flex;gap:10px;align-items:flex-start}
   .exercise-card{background:linear-gradient(to bottom,var(--primary-light),var(--muted));border-radius:20px;padding:40px 20px;text-align:center;margin:16px 0}
   .exercise-emoji{font-size:72px;line-height:1}
@@ -133,7 +140,7 @@
   .substep-dot.done{background:var(--primary)}
   .date-input{width:100%;height:54px;border:2px solid var(--border);border-radius:14px;font-family:var(--font);font-size:16px;font-weight:600;padding:0 16px;outline:none;color:var(--text);background:#fff;transition:border-color .2s}
   .date-input:focus{border-color:var(--primary)}
-  .email-input{width:100%;height:56px;border:2px solid var(--border);border-radius:14px;font-family:var(--font);font-size:16px;font-weight:500;padding:0 16px;outline:none;color:var(--text);background:#fff;transition:border-color .2s;margin:8px 0}
+  .email-input{width:100%;height:58px;border:2px solid #E8E8E8;border-radius:12px;font-family:var(--font);font-size:16px;font-weight:500;padding:0 16px;outline:none;color:#111;background:#fff;transition:border-color .2s,box-shadow .2s;margin:8px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .email-input:focus{border-color:var(--primary)}
   .review-hero{position:relative;border-radius:var(--radius);overflow:hidden;height:auto;min-height:200px;margin-bottom:16px}
   .review-hero img{width:100%;height:100%;object-fit:contain;background:#f5f2ef;object-position:center}
@@ -141,18 +148,18 @@
   .review-hero-content{position:absolute;bottom:0;left:0;right:0;padding:16px}
   .review-badge{display:inline-flex;align-items:center;background:rgba(196,97,74,.9);color:#fff;border-radius:99px;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:8px}
   .review-hero-title{color:#fff;font-size:22px;font-weight:900;line-height:1.2}
-  .review-block{background:var(--muted);border-radius:16px;padding:16px;margin-bottom:12px}
+  .review-block{background:#fff;border:1.5px solid #EBEBEB;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
   .reviewer-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
   .reviewer-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(196,97,74,.3)}
   .reviewer-name{font-weight:700;font-size:14px}
   .stars{color:#F59E0B;font-size:14px}
   .review-quote{font-size:13px;color:var(--text-muted);font-style:italic;line-height:1.55}
   .features-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .feature-box{background:var(--muted);border-radius:12px;padding:12px 8px;text-align:center}
+  .feature-box{background:#fff;border:1.5px solid #EBEBEB;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
   .feature-icon{font-size:22px;margin-bottom:4px}
   .feature-label{font-size:12px;font-weight:700}
-  .btn-primary{width:100%;height:54px;border-radius:99px;background:var(--primary);color:#fff;border:none;font-family:var(--font);font-size:16px;font-weight:800;cursor:pointer;transition:background .2s,transform .1s;box-shadow:0 4px 16px rgba(196,97,74,.35);margin-top:16px}
-  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-primary{width:100%;height:56px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-family:var(--font);font-size:16px;font-weight:800;cursor:pointer;transition:background .2s,transform .1s;box-shadow:0 4px 20px rgba(232,82,106,.35);margin-top:16px;letter-spacing:.2px}
+  .btn-primary:hover{background:var(--primary-dark);box-shadow:0 6px 24px rgba(232,82,106,.45)}
   .btn-primary:active{transform:scale(.98)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed}
   .btn-ghost{width:100%;height:44px;border-radius:99px;background:transparent;color:var(--text-muted);border:none;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;margin-top:6px}
@@ -165,7 +172,7 @@
   .feature-item-title{font-weight:700;font-size:14px}
   .feature-item-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
   .chart-features{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-  .chart-feature{display:flex;align-items:center;gap:10px;background:var(--muted);border-radius:12px;padding:12px;font-size:14px;font-weight:600}
+  .chart-feature{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #EBEBEB;border-radius:12px;padding:12px;font-size:14px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 </style>
 </head>
 <body>
@@ -285,7 +292,7 @@ function renderSocialProof(){
   var al={'35-39':'final dos 30','40-44':'início dos 40','45-49':'final dos 40','50-55':'início dos 50'};
   var ageL=al[state.answers.age_range]||'dos 40';
   var avs=[];
-  return '<div class="social-hero"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/social.webp" alt=""><div class="social-hero-overlay"></div><div class="social-hero-content"><div class="social-avatars"></div><div class="social-hero-title">Mais de <span>12.000 mulheres</span><br><span style="font-size:16px;font-weight:600">no '+ageL+' já descobriram sua fáscia bloqueada</span></div></div></div><div class="stat-row"><div class="stat-item"><div class="stat-num">4.8★</div><div class="stat-desc">Avaliação média</div></div><div class="stat-item"><div class="stat-num">48h</div><div class="stat-desc">Primeiras mudanças</div></div><div class="stat-item"><div class="stat-num">94%</div><div class="stat-desc">Relatam melhora</div></div></div><div class="review-block" style="margin-top:4px"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/sandra.webp" alt=""><div><div class="reviewer-name">Sandra M., 52 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Perdi 6kg só de água na primeira semana. Nunca tinha ouvido falar em fáscia antes."</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
+  return '<div class="social-hero"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/social.webp" alt=""><div class="social-hero-overlay"></div><div class="social-hero-content"><div class="social-avatars"></div><div class="social-hero-title">Mais de <span>12.000 mulheres</span><br><span style="font-size:16px;font-weight:600">no '+ageL+' já descobriram sua fáscia bloqueada</span></div></div></div><div class="stat-row"><div class="stat-item"><div class="stat-num">4.8★</div><div class="stat-desc">Avaliação média</div></div><div class="stat-item"><div class="stat-num" style="font-size:20px;color:#16A34A">48h</div><div class="stat-desc">Primeiras mudanças</div></div><div class="stat-item"><div class="stat-num" style="font-size:20px;color:#E8526A">94%</div><div class="stat-desc">Relatam melhora</div></div></div><div class="review-block" style="margin-top:4px"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/sandra.webp" alt=""><div><div class="reviewer-name">Sandra M., 52 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Perdi 6kg só de água na primeira semana. Nunca tinha ouvido falar em fáscia antes."</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
 
 function renderSingle(step){
@@ -441,7 +448,9 @@ function renderAgeInput(){
 function renderSummary(){
   var bmi=state.answers.current_weight&&state.answers.height_cm?state.answers.current_weight/Math.pow(state.answers.height_cm/100,2):25;
   var ret=Math.min(100,Math.max(0,(bmi-18)/(35-18)*100));
-  var label=ret>75?'Crítico':ret>50?'Alto':ret>25?'Moderado':'Baixo';
+  var label=ret>75?'Crítico':ret>50?'Alto':ret>25?'Moderado':'Baixo';var labelColor=ret>75?'#DC2626':ret>50?'#EA580C':ret>25?'#D97706':'#16A34A';
+  var labelColor=ret>75?'#DC2626':ret>50?'#EA580C':ret>25?'#D97706':'#16A34A';
+  var bmiColor=bmi>30?'#DC2626':bmi>25?'#D97706':'#16A34A';
   var isLbs=state.answers.weight_unit==='lbs';
   var h=state.answers.height_unit==='ft'?(state.answers.height_ft||5)+"'"+(state.answers.height_in||7)+'"':(state.answers.height_cm||165)+' cm';
   var w=isLbs?Math.round((state.answers.current_weight||70)*2.205)+' lbs':Math.round(state.answers.current_weight||70)+' kg';
@@ -449,7 +458,7 @@ function renderSummary(){
   var phase=age<40?'Pré-menopausa':age<50?'Perimenopausa':'Menopausa';
   var gm={barriga:'💧 Barriga inchada',pernas:'🦵 Pernas pesadas',retencao:'💦 Retenção de líquido',cansaco:'😴 Cansaço constante',corpo:'🔥 Corpo inflamado',emagrecer:'⚖️ Dificuldade para emagrecer'};
   var goals=(state.answers.goals||['barriga']).slice(0,3);
-  return'<div style="text-align:center;margin-bottom:12px"><h2 class="step-q">Seu resumo de retenção fascial</h2><p style="font-size:13px;color:var(--text-muted)">Com base nas suas respostas, aqui está o que identificamos</p></div><div style="background:var(--muted);border-radius:16px;padding:16px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Nível de Retenção Fascial</div><div class="gauge-track" style="position:relative"><div class="gauge-seg" style="background:#22C55E"></div><div class="gauge-seg" style="background:#F59E0B"></div><div class="gauge-seg" style="background:#F97316"></div><div class="gauge-seg" style="background:#EF4444"></div><div class="gauge-needle" id="gaugeNeedle" style="left:0%"></div></div><div class="gauge-labels"><span>Baixo</span><span>Moderado</span><span>Alto</span><span>Crítico</span></div><div style="text-align:center;font-size:24px;font-weight:900;color:var(--primary);margin-top:6px">'+label+'</div></div><div style="text-align:center;margin:8px 0"><img src="'+( state.answers.current_body==='slim'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body1.webp':state.answers.current_body==='mid'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body2.webp':state.answers.current_body==='plump'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body3.webp':'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body4.webp')+'" alt="corpo" style="height:120px;object-fit:cover;object-position:top;border-radius:10px"></div><div class="stat-grid"><div class="stat-box"><div class="stat-label">Altura</div><div class="stat-val">'+h+'</div></div><div class="stat-box"><div class="stat-label">Peso</div><div class="stat-val">'+w+'</div></div><div class="stat-box"><div class="stat-label">Fase</div><div class="stat-val" style="font-size:11px">'+phase+'</div></div></div><div style="background:var(--muted);border-radius:14px;padding:14px;margin-top:10px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Seus Objetivos</div><div class="goal-tags">'+goals.map(function(g){return gm[g]?'<div class="goal-tag">'+gm[g]+'</div>':''}).join('')+'</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
+  return'<div style="text-align:center;margin-bottom:12px"><h2 class="step-q">Seu resumo de retenção fascial</h2><p style="font-size:13px;color:var(--text-muted)">Com base nas suas respostas, aqui está o que identificamos</p></div><div style="background:var(--muted);border-radius:16px;padding:16px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Nível de Retenção Fascial</div><div class="gauge-track" style="position:relative"><div class="gauge-seg" style="background:#22C55E"></div><div class="gauge-seg" style="background:#F59E0B"></div><div class="gauge-seg" style="background:#F97316"></div><div class="gauge-seg" style="background:#EF4444"></div><div class="gauge-needle" id="gaugeNeedle" style="left:0%"></div></div><div class="gauge-labels"><span>Baixo</span><span>Moderado</span><span>Alto</span><span>Crítico</span></div><div style="text-align:center;font-size:28px;font-weight:900;color:'+labelColor+';margin-top:8px">'+label+'</div></div><div style="text-align:center;margin:8px 0"><img src="'+( state.answers.current_body==='slim'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body1.webp':state.answers.current_body==='mid'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body2.webp':state.answers.current_body==='plump'?'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body3.webp':'https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body4.webp')+'" alt="corpo" style="height:120px;object-fit:cover;object-position:top;border-radius:10px"></div><div class="stat-grid"><div class="stat-box"><div class="stat-label">Altura</div><div class="stat-val">'+h+'</div></div><div class="stat-box"><div class="stat-label">Peso</div><div class="stat-val">'+w+'</div></div><div class="stat-box"><div class="stat-label">Fase</div><div class="stat-val" style="font-size:11px">'+phase+'</div></div></div><div style="background:var(--muted);border-radius:14px;padding:14px;margin-top:10px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Seus Objetivos</div><div class="goal-tags">'+goals.map(function(g){return gm[g]?'<div class="goal-tag">'+gm[g]+'</div>':''}).join('')+'</div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
 
 function renderDateInput(){
@@ -662,12 +671,12 @@ function setupStep(step){
   if(hc)hc.addEventListener('click',function(){var u=state.answers.height_unit||'cm';var err=document.getElementById('heightError');if(u==='cm'){var v=Number(document.getElementById('heightCm')&&document.getElementById('heightCm').value);if(!v||v<120||v>220){err.textContent='Digite um valor entre 120 e 220 cm';err.style.display='block';return;}state.answers.height_cm=v;state.answers.height_unit='cm';}else{var ft=Number(document.getElementById('heightFt')&&document.getElementById('heightFt').value);var inch=Number((document.getElementById('heightIn')&&document.getElementById('heightIn').value)||0);if(!ft||ft<3||ft>7){err.textContent='Digite um valor válido';err.style.display='block';return;}state.answers.height_ft=ft;state.answers.height_in=inch;state.answers.height_cm=Math.round(ft*30.48+inch*2.54);state.answers.height_unit='ft';}err.style.display='none';nextStep();});
   document.querySelectorAll('[data-wunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.wunit;render();});});
   var wi=document.getElementById('weightInput');
-  if(wi)wi.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var kg=u==='kg'?v:v/2.205;var bmi=kg/Math.pow((state.answers.height_cm||165)/100,2);var info=document.getElementById('weightInfo');if(!info||!v)return;if(bmi<25)info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">✅</span><div><strong>Retenção fascial baixa</strong><p style="font-size:12px;margin-top:3px">Seu protocolo vai focar em manter seu corpo leve.</p></div></div>';else if(bmi<30)info.innerHTML='<div class="retention-box" style="background:#FFFBEB;border-color:#FCD34D;color:#92400E"><span style="font-size:18px">⚠️</span><div><strong>Nível moderado de retenção</strong></div></div>';else info.innerHTML='<div class="retention-box" style="background:#FEF2F2;border-color:#FCA5A5;color:#991B1B"><span style="font-size:18px">❗</span><div><strong>Nível alto de retenção fascial</strong></div></div>';});
+  if(wi)wi.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var kg=u==='kg'?v:v/2.205;var bmi=kg/Math.pow((state.answers.height_cm||165)/100,2);var info=document.getElementById('weightInfo');if(!info||!v)return;if(bmi<25)info.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:12px;margin:10px 0"><div style="width:40px;height:40px;background:#16A34A;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:18px">✓</span></div><div><div style="font-weight:800;font-size:14px;color:#166534">Retenção fascial baixa</div><div style="font-size:12px;color:#16A34A;margin-top:2px">Seu protocolo vai focar em manter seu corpo leve.</div></div></div>';else if(bmi<30)info.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;margin:10px 0"><div style="width:40px;height:40px;background:#D97706;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:18px">!</span></div><div><div style="font-weight:800;font-size:14px;color:#92400E">Nível moderado de retenção</div><div style="font-size:12px;color:#B45309;margin-top:2px">Seu protocolo vai acelerar a liberação fascial.</div></div></div>';else info.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;margin:10px 0"><div style="width:40px;height:40px;background:#DC2626;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:18px">!</span></div><div><div style="font-weight:800;font-size:14px;color:#991B1B">Nível alto de retenção fascial</div><div style="font-size:12px;color:#DC2626;margin-top:2px">Seu protocolo vai priorizar desinchamento intensivo.</div></div></div>';});
   var wc=document.getElementById('weightContinue');
   if(wc)wc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('weightInput')&&document.getElementById('weightInput').value);var err=document.getElementById('weightError');if(!v||(u==='kg'&&(v<40||v>200))||(u==='lbs'&&(v<88||v>440))){err.textContent='Digite um valor válido';err.style.display='block';return;}state.answers.current_weight=u==='kg'?v:v/2.205;err.style.display='none';nextStep();});
   document.querySelectorAll('[data-twunit]').forEach(function(b){b.addEventListener('click',function(){state.answers.weight_unit=b.dataset.twunit;render();});});
   var ti=document.getElementById('targetInput');
-  if(ti)ti.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;var shed=cur-tKg;var info=document.getElementById('targetInfo');if(!info||!v||shed<=0){if(info)info.innerHTML='';return;}var txt=shed<=3?'Resultado rápido possível nas primeiras semanas!':shed<=7?'Estudos mostram que a fáscia pode reduzir 3-7kg de líquido retido.':'Eliminar '+shed.toFixed(1)+'kg de retenção vai transformar como você se sente.';info.innerHTML='<div class="retention-box" style="background:#F0FDF4;border-color:#86EFAC;color:#166534"><span style="font-size:18px">🤌</span><div><strong>META: eliminar retenção líquida</strong><p style="font-size:12px;margin-top:3px">'+txt+'</p></div></div>';});
+  if(ti)ti.addEventListener('input',function(e){var u=state.answers.weight_unit||'kg';var v=Number(e.target.value);var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;var shed=cur-tKg;var info=document.getElementById('targetInfo');if(!info||!v||shed<=0){if(info)info.innerHTML='';return;}var txt=shed<=3?'Resultado rápido possível nas primeiras semanas!':shed<=7?'Estudos mostram que a fáscia pode reduzir 3-7kg de líquido retido.':'Eliminar '+shed.toFixed(1)+'kg de retenção vai transformar como você se sente.';info.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:12px;margin:10px 0"><div style="width:40px;height:40px;background:#16A34A;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:20px">✓</span></div><div><div style="font-weight:800;font-size:14px;color:#166534">META: eliminar retenção líquida</div><div style="font-size:12px;color:#16A34A;margin-top:2px">'+txt+'</div></div></div>';});
   var tc=document.getElementById('targetContinue');
   if(tc)tc.addEventListener('click',function(){var u=state.answers.weight_unit||'kg';var v=Number(document.getElementById('targetInput')&&document.getElementById('targetInput').value);var err=document.getElementById('targetError');var tKg=u==='kg'?v:v/2.205;var cur=state.answers.current_weight||70;if(!v){err.textContent='Digite seu peso meta';err.style.display='block';return;}if(tKg>=cur-0.5){err.textContent='O peso meta deve ser menor que o atual';err.style.display='block';return;}state.answers.target_weight=tKg;err.style.display='none';nextStep();});
   var ac=document.getElementById('ageContinue');
