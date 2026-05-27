@@ -448,15 +448,6 @@ function setupStep(step){
   }
   if(step.type==='body_parts'){
     selP=[];
-    function toggleBP(id){
-var idx=selP.indexOf(id);
-if(idx>-1)selP.splice(idx,1);else selP.push(id);
-var on=selP.includes(id);
-var lbl=document.querySelector('.zone-label[data-part="'+id+'"]');
-var chk=document.getElementById('chk-'+id);
-if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f3e8e5':'white';lbl.style.color=on?'#C4614A':'#1a1714';}
-if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
-}
     document.querySelectorAll('.zone-label').forEach(function(el){el.addEventListener('click',function(){toggleBP(el.dataset.part);});});
     var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
@@ -596,6 +587,15 @@ function renderPlanPage(){
   return'<header class="header"><div style="width:36px"></div><div class="logo"><div class="logo-icon">S</div>Saúde Integrativa</div><div style="width:36px"></div></header><main style="padding:20px 16px 80px"><div style="text-align:center;padding:20px 0 12px"><div style="font-size:56px">🎊</div><h1 style="font-size:24px;font-weight:900;line-height:1.25;margin:12px 0">'+(name?name+', seu':'Seu')+' protocolo personalizado está <span style="color:var(--primary)">pronto!</span></h1>'+(dT?'<div style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:99px;padding:6px 16px;font-size:13px;font-weight:700">🎯 Meta: '+dT+' '+unit+' sem retenção</div>':'')+'</div><div class="offer-card"><div style="display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:700;font-size:13px;margin-bottom:8px">⚡ Oferta de Lançamento — 67% OFF</div><div><span style="font-size:40px;font-weight:900;color:var(--primary)">R$ 97</span><span style="text-decoration:line-through;color:var(--text-muted);font-size:18px;margin-left:8px">R$ 297</span><span style="font-size:13px;color:var(--text-muted);margin-left:4px">/ acesso vitalício</span></div><p style="font-size:11px;color:var(--text-muted);margin-top:6px">Oferta por tempo limitado.</p></div><h3 style="font-weight:700;font-size:14px;margin-bottom:8px">O que está incluído no seu plano:</h3><div class="feature-list">'+feats.map(function(f){return'<div class="feature-item"><span class="feature-item-icon">'+f.i+'</span><div><div class="feature-item-title">'+f.t+'</div><div class="feature-item-desc">'+f.d+'</div></div><span style="margin-left:auto;color:var(--primary);font-size:16px">✓</span></div>'}).join('')+'</div><button class="btn-primary" onclick="window.location.href=\''+url+'\'">Começar Meu Protocolo por R$97 →</button><div style="display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text-muted);margin:8px 0"><span>🛡 Garantia de 7 dias</span><span>⏱ Sem risco</span></div><div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;margin-bottom:10px"><span>Confiado por milhares de mulheres</span><span style="color:#F59E0B">★★★★★ 4.8/5</span></div>'+[{n:'Sandra M.',t:'Perdi 6kg de retenção em 3 semanas. Os movimentos são muito fáceis de fazer em casa!'},{n:'Cláudia R.',t:'Entrei na menopausa e ganhei 9kg. Comecei há 3 semanas e já desinchou MUITO. As calças estão folgadas.'}].map(function(r){return'<div style="background:var(--muted);border-radius:14px;padding:14px;margin-bottom:8px"><div style="font-weight:700;font-size:13px">'+r.n+' <span style="color:#F59E0B">★★★★★</span></div><div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:6px;line-height:1.5">"'+r.t+'"</div></div>'}).join('')+'</div><p style="font-size:10px;text-align:center;color:var(--text-muted);margin-top:16px">© 2026 Saúde Integrativa. Todos os direitos reservados.<br>Os resultados podem variar de pessoa para pessoa.</p></main>';
 }
 
+function toggleBP(id){
+var idx=selP.indexOf(id);
+if(idx>-1)selP.splice(idx,1);else selP.push(id);
+var on=selP.includes(id);
+var lbl=document.querySelector('.zone-label[data-part="'+id+'"]');
+var chk=document.getElementById('chk-'+id);
+if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f3e8e5':'white';lbl.style.color=on?'#C4614A':'#1a1714';}
+if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
+}
 render();
 </script>
 </body>
