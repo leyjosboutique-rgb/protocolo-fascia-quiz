@@ -207,7 +207,8 @@ var STEPS=[
   {id:'summary',type:'summary',progress:false},
   {id:'event',type:'single',progress:true,label:'Tem alguma data especial que te motiva?',sub:'Ter uma data clara aumenta os resultados em 3x',key:'event',opts:[{l:'Não',v:'none',e:'🚫'},{l:'Viagem',v:'viagem',e:'✈️'},{l:'Casamento',v:'casamento',e:'💒'},{l:'Verão',v:'verao',e:'☀️'},{l:'Aniversário',v:'aniversario',e:'❤️'},{l:'Evento especial',v:'evento',e:'👗'},{l:'Aniversário meu',v:'birthday',e:'🎂'},{l:'Outro motivo',v:'other',e:'🤌'}]},
   {id:'event_date',type:'date_input',progress:true},
-  {id:'chart',type:'weight_chart',progress:false}
+  {id:'chart',type:'weight_chart',progress:false},
+  {id:'calculating',type:'calculating',progress:false}
 ];
 var PROGRESS_STEPS=STEPS.filter(function(s){return s.progress});
 
@@ -250,6 +251,7 @@ function renderStep(s){
     case 'summary':return renderSummary();
     case 'date_input':return renderDateInput();
     case 'weight_chart':return renderWeightChart();
+    case 'calculating':return renderCalculating();
     default:return'';
   }
 }
@@ -327,6 +329,38 @@ function renderExerciseLikes(){
   return'<div style="text-align:center"><h2 class="step-q">Gosta ou Não Gosta?</h2><p class="step-sub">Se não sabe, escolha Neutro</p></div><div class="substep-dots">'+exs.map(function(_,i){return'<div class="substep-dot '+(i<=sub?'done':'')+'"></div>'}).join('')+'</div><div class="exercise-card" style="padding:0;overflow:hidden"><img src="'+ex.img+'" alt="'+ex.l+'" style="width:100%;height:200px;object-fit:cover"><div style="padding:12px 16px;background:var(--primary-light)"><div style="font-size:18px;font-weight:900">'+ex.l+'</div><div style="font-size:13px;color:var(--text-muted)">'+ex.desc+'</div></div></div><div class="like-grid"><button class="like-btn hate" data-like="hate">✗<span>Não gosto</span></button><button class="like-btn neutral" data-like="neutral">—<span>Neutro</span></button><button class="like-btn love" data-like="love">♥<span>Gosto</span></button></div><p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px">'+(sub+1)+' de '+exs.length+'</p>';
 }
 
+function renderCalculating(){
+  var items=[
+    {icon:'🔬',label:'Analisando densidade fascial...'},
+    {icon:'💧',label:'Medindo retenção de líquidos...'},
+    {icon:'🧬',label:'Cruzando dados hormonais...'},
+    {icon:'📊',label:'Calculando protocolo ideal...'},
+    {icon:'✅',label:'Plano personalizado pronto!'}
+  ];
+  return '<div style="text-align:center;padding:16px 0 8px">'
+    +'<h2 class="step-q" style="font-size:21px">Calculando seus<br>resultados personalizados...</h2>'
+    +'<p style="font-size:13px;color:var(--text-muted);margin:8px 0 24px">Aguarde enquanto preparamos seu protocolo exclusivo</p>'
+    +'<div style="position:relative;width:180px;height:180px;margin:0 auto 28px">'
+    +'<svg width="180" height="180" style="transform:rotate(-90deg)">'
+    +'<circle cx="90" cy="90" r="78" fill="none" stroke="#f3e8e5" stroke-width="12"/>'
+    +'<circle id="calcCircle" cx="90" cy="90" r="78" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"/>'
+    +'</svg>'
+    +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+    +'<div id="calcPct" style="font-size:44px;font-weight:900;color:var(--primary);line-height:1">0%</div>'
+    +'<div style="font-size:11px;color:var(--text-muted);margin-top:2px">concluído</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="text-align:left;display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto">'
+    +items.map(function(it,i){
+      return '<div id="calcItem'+i+'" style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--muted);border-radius:12px;opacity:0.3;transition:opacity 0.5s,background 0.5s">'
+        +'<span style="font-size:20px">'+it.icon+'</span>'
+        +'<span style="font-size:13px;font-weight:600;flex:1">'+it.label+'</span>'
+        +'<span id="calcCheck'+i+'" style="font-size:15px;font-weight:800;color:var(--primary)"></span>'
+        +'</div>';
+    }).join('')
+    +'</div>'
+    +'</div>';
+}
 function renderLoader(){
 var revs=[
   {n:'Sandra M.',t:'3 dias atrás',s:5,title:'Perdi 6kg em 1 semana',text:'"Perdi 6kg só de água na primeira semana. Impressionada!"'},
@@ -470,6 +504,26 @@ function setupStep(step){
       if(state.exerciseSubStep<exKeys.length-1){state.exerciseSubStep++;render()}
       else{state.answers.exercise_likes=Object.assign({},state.exerciseRatings);state.exerciseSubStep=0;state.exerciseRatings={};nextStep()}
     })});
+  }
+  if(step.type==='calculating'){
+    var calcPct=0;
+    var calcInt=setInterval(function(){
+      calcPct=Math.min(calcPct+0.55,100);
+      var pct=Math.round(calcPct);
+      var circle=document.getElementById('calcCircle');
+      var pctEl=document.getElementById('calcPct');
+      if(circle)circle.setAttribute('stroke-dashoffset',490-(490*(pct/100)));
+      if(pctEl)pctEl.textContent=pct+'%';
+      [0,1,2,3,4].forEach(function(i){
+        if(pct>=(i+1)*20){
+          var item=document.getElementById('calcItem'+i);
+          var check=document.getElementById('calcCheck'+i);
+          if(item){item.style.opacity='1';item.style.background='#fdf0ed';}
+          if(check)check.textContent='✓';
+        }
+      });
+      if(calcPct>=100){clearInterval(calcInt);setTimeout(function(){nextStep();},700);}
+    },30);
   }
   if(step.type==='loader'){
     if(state.loaderInterval)clearInterval(state.loaderInterval);
@@ -685,7 +739,7 @@ function startTimer(elementId, seconds, onEnd){
 }
 function setupEmailPage(){
   var btn=document.getElementById('emailSubmit');var inp=document.getElementById('emailInput');
-  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;setTimeout(function(){state.page='plan';render();},1200);});
+  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
   setTimeout(function(){startTimer('urgTimer',600,null);},100);
 }
 
@@ -709,6 +763,8 @@ if(lbl){lbl.style.borderColor=on?'#C4614A':'#e8e5e2';lbl.style.background=on?'#f
 if(chk){chk.style.background=on?'#C4614A':'';chk.style.borderColor=on?'#C4614A':'#e8e5e2';chk.innerHTML=on?'✓':'';}
 }
 
+var BODY_MAP={slim:'1',mid:'2',plump:'3',over:'4'};
+var TARGET_MAP={light:'1',fit:'2',smaller:'3',energy:'4'};
 render();
 </script>
 </body>
