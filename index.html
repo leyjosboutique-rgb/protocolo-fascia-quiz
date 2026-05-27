@@ -183,7 +183,6 @@ var STEPS=[
   {id:'current_body',type:'body_type',progress:true,kind:'current'},
   {id:'target_body',type:'body_type',progress:true,kind:'target'},
   {id:'limits',type:'multiple',progress:true,label:'Você tem alguma dessas limitações?',sub:'Selecione tudo que se aplica:',btn:'Continuar',key:'limits',opts:[{l:'Dor lombar',v:'lombar',e:'🔙'},{l:'Joelho sensível',v:'joelho',e:'🦵'},{l:'Dor no pescoço ou ombros',v:'pescoco',e:'💪'},{l:'Nenhuma das anteriores',v:'none',e:'✅'}]},
-  {id:'body_parts',type:'body_parts',progress:true},
   {id:'review_info',type:'review_info',progress:false},
   {id:'typical_day',type:'single',progress:true,label:'Como é o seu dia típico?',key:'day',opts:[{l:'Fico sentada a maior parte do dia',v:'sitting',e:'💻'},{l:'Faço pausas ativas',v:'breaks',e:'🚶'},{l:'Fico em pé o dia todo',v:'standing',e:'🏃'}]},
   {id:'work',type:'single',progress:true,label:'Qual é a sua rotina de trabalho?',key:'work',opts:[{l:'Horário fixo (9 às 18h)',v:'fixed',e:'🕐'},{l:'Horários flexíveis',v:'flex',e:'🔄'},{l:'Turno da noite',v:'night',e:'🌙'},{l:'Aposentada / não trabalho',v:'retired',e:'🏡'}]},
@@ -317,32 +316,6 @@ for(var i=0;i<opts.length;i++){var o=opts[i];html+='<button class="body-type-car
 html+='</div>';
 return html;
 }
-function renderBodyParts(){
-selP=[]; 
-var parts=[
-  {id:'arms',l:'Braços',e:'💪',side:'left'},
-  {id:'belly',l:'Barriga',e:'🫁',side:'right'},
-  {id:'flanks',l:'Flancos',e:'🎯',side:'left'},
-  {id:'hips',l:'Quadril',e:'🍑',side:'right'},
-  {id:'thighs',l:'Coxas',e:'🦵',side:'left'},
-  {id:'legs',l:'Pernas',e:'🦶',side:'right'},
-];
-var leftParts=parts.filter(function(p){return p.side==='left';});
-var rightParts=parts.filter(function(p){return p.side==='right';});
-function labelHtml(p){return '<div class="zone-label" data-part="'+p.id+'" style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;border-radius:10px;border:2px solid #e8e5e2;background:white;cursor:pointer;font-size:12px;font-weight:700"><div id="chk-'+p.id+'" style="width:16px;height:16px;border-radius:4px;border:2px solid #e8e5e2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:white"></div>'+p.l+'</div>';}
-var html='<h2 class="step-q">Onde você sente mais inchaço?</h2><p class="step-sub">Toque as áreas com inchaço</p>';
-html+='<div style="display:flex;align-items:flex-start;gap:6px;margin-top:8px">';
-html+='<div style="flex-shrink:0;width:90px;margin-top:40px">';
-leftParts.forEach(function(p){html+=labelHtml(p);});
-html+='</div>';
-html+='<div style="flex:1"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/body-zones.webp" alt="corpo" style="width:100%;display:block;border-radius:12px"></div>';
-html+='<div style="flex-shrink:0;width:90px;margin-top:80px">';
-rightParts.forEach(function(p){html+=labelHtml(p);});
-html+='</div>';
-html+='</div>';
-html+='<button class="btn-primary" id="partsContinue">Continuar</button>';
-return html;
-}
 function renderReviewInfo(){
   return'<div class="review-hero"><img src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/review.webp" alt=""><div class="review-hero-overlay"></div><div class="review-hero-content"><div class="review-badge">✓ Já desinchou!</div><div class="review-hero-title">Resultados visíveis em 4 semanas</div></div></div><div class="review-block"><div class="reviewer-row"><img class="reviewer-avatar" src="https://raw.githubusercontent.com/leyjosboutique-rgb/protocolo-fascia-quiz/main/50.webp" alt=""><div><div class="reviewer-name">Cláudia R., 49 anos</div><div class="stars">★★★★★</div></div></div><div class="review-quote">"Entrei na menopausa e ganhei 9kg em 6 meses. Comecei há 3 semanas. Já desinchou MUITO o rosto e a barriga. As calças estão folgadas."</div></div><div class="features-grid"><div class="feature-box"><div class="feature-icon">🏠</div><div class="feature-label">Em casa</div></div><div class="feature-box"><div class="feature-icon">🚫</div><div class="feature-label">Sem academia</div></div><div class="feature-box"><div class="feature-icon">⚡</div><div class="feature-label">Rápido</div></div></div><button class="btn-primary" id="continueBtn">Continuar</button>';
 }
@@ -447,20 +420,6 @@ function setupStep(step){
     });
     var mc=document.getElementById('multiContinue');
     if(mc)mc.addEventListener('click',function(){if(step.key)state.answers[step.key]=[].concat(sel);nextStep()});
-  }
-  if(step.type==='body_parts'){
-    selP=[];
-    setTimeout(function(){
-      document.querySelectorAll('.zone-label').forEach(function(el){
-        el.style.borderColor='#e8e5e2';
-        el.style.background='white';
-        el.style.color='#1a1714';
-        var chk=document.getElementById('chk-'+el.dataset.part);
-        if(chk){chk.style.background='';chk.style.borderColor='#e8e5e2';chk.innerHTML='';}
-        (function(pid){el.addEventListener('click',function(){toggleBP(pid);});})(el.dataset.part);
-      });
-    },50);
-    var pc=document.getElementById('partsContinue');if(pc)pc.addEventListener('click',function(){state.answers.body_parts=selP;nextStep();});
   }
   if(step.type==='exercise_likes'){
     var exKeys=['yoga','walk','massage'];
