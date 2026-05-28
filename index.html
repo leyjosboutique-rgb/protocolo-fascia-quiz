@@ -883,18 +883,18 @@ var BODY_MAP={slim:'1',mid:'2',plump:'3',over:'4'};
 var TARGET_MAP={light:'1',fit:'2',smaller:'3',energy:'4'};
 render();
 
-// Brevo — captura silenciosa via formulario
 function sendToBrevo(email) {
-  var formData = new FormData();
-  formData.append('EMAIL', email);
-  formData.append('email_address_check', '');
-  formData.append('locale', 'pt');
-  fetch('https://6d2bbfc3.sibforms.com/serve/MUIFAIlJHRHUk7xcYe3OhsJgkIDffXpU5jE2TayI0WNkEjQ8jHj_kFPcjF-ofj8fLpOBGPagngcRIhKKoryIstV_aiX0FUPH3f_Gp3Yn1EbDx8nPfJppooCtKnxF4KWcMCW3FY4bEd_9tSKaLiHzv4Pl7NF0mCwKlxpGJOuin85hFbv3TepKhMasVUNv2h9SUgpSGF5UwjKy9Hh6dw==', {
-    method: 'POST',
-    body: formData,
-    mode: 'no-cors'
-  }).catch(function(){});
+  document.getElementById('brevo_email').value = email;
+  document.getElementById('brevo_form').submit();
 }
 </script>
+
+<!-- Brevo hidden form -->
+<iframe name="brevo_iframe" style="display:none;"></iframe>
+<form id="brevo_form" method="POST" action="https://6d2bbfc3.sibforms.com/serve/MUIFAIlJHRHUk7xcYe3OhsJgkIDffXpU5jE2TayI0WNkEjQ8jHj_kFPcjF-ofj8fLpOBGPagngcRIhKKoryIstV_aiX0FUPH3f_Gp3Yn1EbDx8nPfJppooCtKnxF4KWcMCW3FY4bEd_9tSKaLiHzv4Pl7NF0mCwKlxpGJOuin85hFbv3TepKhMasVUNv2h9SUgpSGF5UwjKy9Hh6dw==" target="brevo_iframe" style="display:none;">
+  <input type="text" name="EMAIL" id="brevo_email" value="">
+  <input type="text" name="email_address_check" value="">
+  <input type="hidden" name="locale" value="pt">
+</form>
 </body>
 </html>
