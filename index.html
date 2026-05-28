@@ -804,7 +804,9 @@ function startTimer(elementId, seconds, onEnd){
 }
 function setupEmailPage(){
   var btn=document.getElementById('emailSubmit');var inp=document.getElementById('emailInput');
-  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;sendToBrevo(email);setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
+  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;
+    fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,corpo_atual:state.answers.current_body||'',corpo_meta:state.answers.target_body||'',peso_atual:state.answers.current_weight||'',peso_meta:state.answers.target_weight||'',idade:state.answers.age||''})}).catch(function(){});
+    setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
   setTimeout(function(){startTimer('urgTimer',600,null);},100);
 }
 
@@ -882,19 +884,6 @@ function setupEmailPage(){
 var BODY_MAP={slim:'1',mid:'2',plump:'3',over:'4'};
 var TARGET_MAP={light:'1',fit:'2',smaller:'3',energy:'4'};
 render();
-
-function sendToBrevo(email) {
-  document.getElementById('brevo_email').value = email;
-  document.getElementById('brevo_form').submit();
-}
 </script>
-
-<!-- Brevo hidden form -->
-<iframe name="brevo_iframe" style="display:none;"></iframe>
-<form id="brevo_form" method="POST" action="https://6d2bbfc3.sibforms.com/serve/MUIFAIlJHRHUk7xcYe3OhsJgkIDffXpU5jE2TayI0WNkEjQ8jHj_kFPcjF-ofj8fLpOBGPagngcRIhKKoryIstV_aiX0FUPH3f_Gp3Yn1EbDx8nPfJppooCtKnxF4KWcMCW3FY4bEd_9tSKaLiHzv4Pl7NF0mCwKlxpGJOuin85hFbv3TepKhMasVUNv2h9SUgpSGF5UwjKy9Hh6dw==" target="brevo_iframe" style="display:none;">
-  <input type="text" name="EMAIL" id="brevo_email" value="">
-  <input type="text" name="email_address_check" value="">
-  <input type="hidden" name="locale" value="pt">
-</form>
 </body>
 </html>
