@@ -805,8 +805,10 @@ function startTimer(elementId, seconds, onEnd){
 function setupEmailPage(){
   var btn=document.getElementById('emailSubmit');var inp=document.getElementById('emailInput');
   if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;
-    fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,corpo_atual:state.answers.current_body||'',corpo_meta:state.answers.target_body||'',peso_atual:state.answers.current_weight||'',peso_meta:state.answers.target_weight||'',idade:state.answers.age||''})}).catch(function(){});
-    setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
+    var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);
+    fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,corpo_atual:state.answers.current_body||'',corpo_meta:state.answers.target_body||'',peso_atual:state.answers.current_weight||'',peso_meta:state.answers.target_weight||'',idade:state.answers.age||''})})
+    .then(function(){window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;})
+    .catch(function(){window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;});});
   setTimeout(function(){startTimer('urgTimer',600,null);},100);
 }
 
