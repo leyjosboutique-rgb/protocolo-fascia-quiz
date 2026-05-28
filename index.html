@@ -221,6 +221,15 @@ function fireInitiateCheckout() {
   });
 }
 </script>
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wy0vlysgrw");
+    </script>
+    <!-- End Microsoft Clarity -->
 </head>
 <body>
 <div id="app"></div>
@@ -796,7 +805,10 @@ function startTimer(elementId, seconds, onEnd){
 }
 function setupEmailPage(){
   var btn=document.getElementById('emailSubmit');var inp=document.getElementById('emailInput');
-  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
+  if(btn)btn.addEventListener('click',function(){var email=inp?inp.value:'';var err=document.getElementById('emailErr');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Digite um e-mail válido';return;}state.answers.email=email;btn.textContent='Preparando seu plano...';btn.disabled=true;
+      // Brevo — adicionar à lista #7 Brasil Protocolo Fascia
+      fetch('https://api.brevo.com/v3/contacts',{method:'POST',headers:{'accept':'application/json','content-type':'application/json','api-key':'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'},body:JSON.stringify({email:email,listIds:[7],updateEnabled:true,attributes:{FONTE:'Quiz Fascia Brasil',CORPO_ATUAL:state.answers.current_body||'',CORPO_META:state.answers.target_body||'',PESO_ATUAL:String(state.answers.current_weight||''),PESO_META:String(state.answers.target_weight||''),IDADE:String(state.answers.age||'')}})}).catch(function(){});
+      setTimeout(function(){var bn=BODY_MAP[state.answers.current_body]||'2';var tn=TARGET_MAP[state.answers.target_body]||'3';var em=encodeURIComponent(email);window.location.href='sales-page.html?body='+bn+'&target='+tn+'&email='+em;},1200);});
   setTimeout(function(){startTimer('urgTimer',600,null);},100);
 }
 
