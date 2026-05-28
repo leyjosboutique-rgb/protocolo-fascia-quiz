@@ -819,8 +819,12 @@ function nextStep(){
   while(next<STEPS.length){var s=STEPS[next];if(s.id==='event_date'&&(state.answers.event==='none'||!state.answers.event)){next++;continue;}break;}
   if(next>=STEPS.length){state.page='email';render();return;}
   state.step=next;render();window.scrollTo({top:0,behavior:'smooth'});
-  if(typeof fbq!=='undefined'&&next===STEPS.length-1){
-    fbq('track','ViewContent',{content_name:'Quiz Completo',value:97,currency:'BRL'});
+  if(typeof fbq!=='undefined'){
+    var stepId=STEPS[next]?STEPS[next].id:'unknown';
+    fbq('trackCustom','QuizStep',{step:next,step_id:stepId,content_name:'Quiz Protocolo Fascia'});
+    if(next===STEPS.length-1){
+      fbq('track','ViewContent',{content_name:'Quiz Completo',value:97,currency:'BRL'});
+    }
   }
 }
 
